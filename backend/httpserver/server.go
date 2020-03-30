@@ -16,6 +16,20 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(state)
 }
 
+type ownershipRequest struct {
+	Player     string
+	Shop       string
+	TileNumber int
+}
+
+func setOwnership(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var o ownershipRequest
+	json.NewDecoder(r.Body).Decode(&o)
+	state.SetOwnership(o.TileNumber, o.Player, o.Shop)
+	json.NewEncoder(w).Encode(state)
+}
+
 type moneyRequest struct {
 	Money  int
 	Player string
@@ -63,6 +77,9 @@ func Run() {
 	router := http.NewServeMux()
 	router.HandleFunc("/state", handler)
 	router.HandleFunc("/endTurn", endTurn)
+	router.HandleFunc("/returnTile", returnTile)
+	router.HandleFunc("/addMoney", addMoney)
+	router.HandleFunc("/setOwnership", setOwnership)
 	server := &http.Server{
 		Addr:         ":8080",
 		Handler:      logging(logger)(router),

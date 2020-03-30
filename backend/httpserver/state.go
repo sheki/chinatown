@@ -13,10 +13,16 @@ type State struct {
 	TilesAllocation TilesAllocation
 	CardsDealt      int
 	Money           MoneyAllocation
+	Ownership       []TileOwnership
 
 	tiles []int
 }
 
+type TileOwnership struct {
+	TileNumber int
+	Player     string
+	Shop       string
+}
 type TurnPhase string
 
 const (
@@ -40,13 +46,16 @@ type TilesAllocation struct {
 
 func NewState() *State {
 	var tiles []int
+	var towns []TileOwnership
 	for i := 1; i <= 85; i++ {
 		tiles = append(tiles, i)
+		towns = append(towns, TileOwnership{1, "", ""})
 	}
 	s := &State{
 		Year:       1,
 		CardsDealt: tileRounds[0],
 		tiles:      tiles,
+		Ownership:  towns,
 		Money: MoneyAllocation{
 			PlayerOne:   50000,
 			PlayerTwo:   50000,
@@ -81,6 +90,26 @@ func (s *State) AddMoney(player string, money int) {
 			s.Money.PlayerThree += money
 		case "PlayerFour":
 			s.Money.PlayerFour += money
+		}
+	}
+}
+
+func (s *State) SetOwnership(tileNumber int, player string, shop string) {
+	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
+		s.IncrementVersion()
+		switch player {
+		case "PlayerOne":
+			s.Ownership[tileNumber].Player = "PlayerOne"
+			s.Ownership[tileNumber].Shop = shop
+		case "PlayerTwo":
+			s.Ownership[tileNumber].Player = "PlayerTwo"
+			s.Ownership[tileNumber].Shop = shop
+		case "PlayerThree":
+			s.Ownership[tileNumber].Player = "PlayerThree"
+			s.Ownership[tileNumber].Shop = shop
+		case "PlayerFour":
+			s.Ownership[tileNumber].Player = "PlayerFour"
+			s.Ownership[tileNumber].Shop = shop
 		}
 	}
 }
