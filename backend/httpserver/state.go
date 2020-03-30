@@ -55,7 +55,7 @@ func NewState() *State {
 		towns = append(towns, TileOwnership{i, "", ""})
 	}
 	s := &State{
-		Year:       1,
+		Year:       0,
 		CardsDealt: tileRounds[0],
 		tiles:      tiles,
 		mutex:      &sync.Mutex{},
@@ -67,7 +67,6 @@ func NewState() *State {
 			PlayerFour:  50000,
 		},
 	}
-	s.dealCards()
 	return s
 }
 
@@ -181,20 +180,28 @@ func (s *State) IncrementVersion() {
 func (s *State) RegisterPlayer(name string) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
+	if s.Year > 0 {
+		return
+	}
 	s.IncrementVersion()
 
 	if s.Players.PlayerOne == "" {
 		s.Players.PlayerOne = name
+		return
 	}
 	if s.Players.PlayerTwo == "" {
 		s.Players.PlayerTwo = name
+		return
 	}
 	if s.Players.PlayerThree == "" {
 		s.Players.PlayerThree = name
+		return
 	}
 	if s.Players.PlayerFour == "" {
-		s.Players.PlayerThree = name
+		s.Players.PlayerFour = name
 	}
+
+	s.Year = 1
 }
 
 type PlayerNames struct {

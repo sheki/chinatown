@@ -1,19 +1,63 @@
+open Response;
+
+type gameState =
+  | NoGameState
+  | GameState(state);
+
+let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
+  switch (gs) {
+  | NoGameState => true
+  | GameState(old) => old.version < s.version
+  };
+
+let gameTime = (~gs: state) =>
+  switch (gs.year) {
+  | 0 => <WaitingOnOthers />
+  | _ => <ZoneOne />
+  };
+
 [@react.component]
 let make = () => {
   let (playerNumber, setPlayerNumber) = React.useState(() => "");
   let (playerName, setPlayerName) = React.useState(() => "");
-  let onNameSubmit = (~n: string) => {
-    Api.registerPlayer(n)
-    |> Js.Promise.then_(_ => {
-         setPlayerName(_ => playerName);
-         setPlayerNumber(_ => "1");
+
+  let (gameState, setGameState) = React.useState(() => NoGameState);
+
+  let refreshState = () => {
+    Api.getState()
+    |> Js.Promise.then_(s => {
+         if (shouldUpdateGameState(s, gameState) && playerName != "") {
+           setGameState(_ => GameState(s));
+         };
          Js.Promise.resolve();
        })
     |> ignore;
     ();
   };
-  switch (playerNumber) {
-  | "" => <AddPlayers onNameSubmit />
-  | _ => <ZoneOne />
+
+  React.useEffect0(() => {
+    let timerId = Js.Global.setInterval(() => refreshState(), 3000);
+    Some(() => Js.Global.clearInterval(timerId));
+  });
+
+  let onNameSubmit = (~n: string) => {
+    Api.registerPlayer(n)
+    |> Js.Promise.then_(s => {
+         setPlayerName(_ => n);
+         setPlayerNumber(_ => findPlayerNumber(s, n));
+         setGameState(_ => GameState(s));
+         Js.Promise.resolve();
+       })
+    |> ignore;
+    ();
+  };
+
+  if (playerNumber == "") {
+    <AddPlayers onNameSubmit />;
+  } else {
+    switch (gameState) {
+    | NoGameState => <AddPlayers onNameSubmit />
+    | GameState(gs) => gameTime(gs)
+    };
   };
 };
