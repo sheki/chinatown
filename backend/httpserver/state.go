@@ -3,6 +3,7 @@ package httpserver
 import (
 	"log"
 	"math/rand"
+	"sync"
 )
 
 type State struct {
@@ -14,6 +15,7 @@ type State struct {
 	CardsDealt      int
 	Money           MoneyAllocation
 	Ownership       []TileOwnership
+	mutex           *sync.Mutex
 
 	tiles []int
 }
@@ -26,8 +28,9 @@ type TileOwnership struct {
 type TurnPhase string
 
 const (
-	PickTiles  TurnPhase = "pick_tiles"
-	OpenMarket           = "open_market"
+	PickTiles          TurnPhase = "PickTiles"
+	OpenMarket                   = "OpenMarket"
+	PlayerRegistration           = "PlayerRegistration"
 )
 
 type MoneyAllocation struct {
@@ -55,6 +58,7 @@ func NewState() *State {
 		Year:       1,
 		CardsDealt: tileRounds[0],
 		tiles:      tiles,
+		mutex:      &sync.Mutex{},
 		Ownership:  towns,
 		Money: MoneyAllocation{
 			PlayerOne:   50000,
@@ -70,6 +74,8 @@ func NewState() *State {
 var tileRounds = []int{6, 5, 5, 5, 5, 5}
 
 func (s *State) EndYear() {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	if s.Year < 6 {
 		s.IncrementVersion()
 		s.Year += 1
@@ -79,6 +85,8 @@ func (s *State) EndYear() {
 }
 
 func (s *State) AddMoney(player string, money int) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	if s.Year < 6 {
 		s.IncrementVersion()
 		switch player {
@@ -95,6 +103,8 @@ func (s *State) AddMoney(player string, money int) {
 }
 
 func (s *State) SetOwnership(tileNumber int, player string, shop string) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
 		s.IncrementVersion()
 		switch player {
@@ -115,6 +125,8 @@ func (s *State) SetOwnership(tileNumber int, player string, shop string) {
 }
 
 func (s *State) ReturnTiles(player string, tiles []int) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	if s.Year < 6 {
 		s.IncrementVersion()
 		switch player {
@@ -167,16 +179,21 @@ func (s *State) IncrementVersion() {
 }
 
 func (s *State) RegisterPlayer(player, name string) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
 	s.IncrementVersion()
-	switch player {
-	case "PlayerOne":
+
+	if s.Players.PlayerOne == "" {
 		s.Players.PlayerOne = name
-	case "PlayerTwo":
+	}
+	if s.Players.PlayerTwo == "" {
 		s.Players.PlayerTwo = name
-	case "PlayerThree":
+	}
+	if s.Players.PlayerThree == "" {
 		s.Players.PlayerThree = name
-	case "PlayerFour":
-		s.Players.PlayerFour = name
+	}
+	if s.Players.PlayerFour == "" {
+		s.Players.PlayerThree = name
 	}
 }
 
