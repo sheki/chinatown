@@ -37,10 +37,9 @@ let makeShekiContainer = () => {
 };
 
 
-
 // All 4 examples.
 ReactDOMRe.render(
-	<ZoneOne />,
+	<Main/>,
 	makeShekiContainer(),
 );
 
