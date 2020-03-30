@@ -7,7 +7,7 @@ import (
 	"os"
 	"time"
 
-	_ "github.com/motemen/go-loghttp/global" // Just this line!
+	"github.com/rs/cors"
 )
 
 var state = NewState()
@@ -57,15 +57,14 @@ func returnTile(w http.ResponseWriter, r *http.Request) {
 }
 
 type registerPlayerRequest struct {
-	Player string
-	Name   string
+	Name string
 }
 
 func registerPlayer(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var p registerPlayerRequest
 	json.NewDecoder(r.Body).Decode(&p)
-	state.RegisterPlayer(p.Player, p.Name)
+	state.RegisterPlayer(p.Name)
 	json.NewEncoder(w).Encode(state)
 }
 
@@ -94,15 +93,17 @@ func Run() {
 	router.HandleFunc("/addMoney", addMoney)
 	router.HandleFunc("/setOwnership", setOwnership)
 	router.HandleFunc("/registerPlayer", registerPlayer)
+	router.HandleFunc("/", handler)
+	cors := cors.Default().Handler(router)
+
 	server := &http.Server{
 		Addr:         ":8080",
-		Handler:      logging(logger)(router),
+		Handler:      logging(logger)(cors),
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 		IdleTimeout:  15 * time.Second,
 	}
-	http.HandleFunc("/", handler)
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 		logger.Fatalf("Could not listen")
 	}

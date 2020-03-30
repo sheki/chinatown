@@ -178,7 +178,7 @@ func (s *State) IncrementVersion() {
 	s.Version += 1
 }
 
-func (s *State) RegisterPlayer(player, name string) {
+func (s *State) RegisterPlayer(name string) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	s.IncrementVersion()
