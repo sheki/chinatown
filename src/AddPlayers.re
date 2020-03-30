@@ -1,5 +1,5 @@
 [@react.component]
-let make = (~onNameSubmit: string => unit) => {
+let make = (~onNameSubmit: (~n: string) => unit) => {
   let (name, setName) = React.useState(() => "");
 
   let onChange = (e: ReactEvent.Form.t): unit => {
