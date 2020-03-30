@@ -56,6 +56,19 @@ func returnTile(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(state)
 }
 
+type registerPlayerRequest struct {
+	Player string
+	Name   string
+}
+
+func registerPlayer(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var p registerPlayerRequest
+	json.NewDecoder(r.Body).Decode(&p)
+	state.RegisterPlayer(p.Player, p.Name)
+	json.NewEncoder(w).Encode(state)
+}
+
 func endTurn(w http.ResponseWriter, r *http.Request) {
 	state.EndYear()
 	json.NewEncoder(w).Encode(state)
@@ -80,6 +93,7 @@ func Run() {
 	router.HandleFunc("/returnTile", returnTile)
 	router.HandleFunc("/addMoney", addMoney)
 	router.HandleFunc("/setOwnership", setOwnership)
+	router.HandleFunc("/registerPlayer", registerPlayer)
 	server := &http.Server{
 		Addr:         ":8080",
 		Handler:      logging(logger)(router),

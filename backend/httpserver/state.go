@@ -49,7 +49,7 @@ func NewState() *State {
 	var towns []TileOwnership
 	for i := 1; i <= 85; i++ {
 		tiles = append(tiles, i)
-		towns = append(towns, TileOwnership{1, "", ""})
+		towns = append(towns, TileOwnership{i, "", ""})
 	}
 	s := &State{
 		Year:       1,
@@ -164,6 +164,20 @@ func pickRandom(slice []int) (int, []int) {
 
 func (s *State) IncrementVersion() {
 	s.Version += 1
+}
+
+func (s *State) RegisterPlayer(player, name string) {
+	s.IncrementVersion()
+	switch player {
+	case "PlayerOne":
+		s.Players.PlayerOne = name
+	case "PlayerTwo":
+		s.Players.PlayerTwo = name
+	case "PlayerThree":
+		s.Players.PlayerThree = name
+	case "PlayerFour":
+		s.Players.PlayerFour = name
+	}
 }
 
 type PlayerNames struct {
