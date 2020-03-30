@@ -13,7 +13,7 @@ let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
 let gameTime = (~gs: state) =>
   switch (gs.year) {
   | 0 => <WaitingOnOthers />
-  | _ => <ZoneOne />
+  | _ => <Board state=gs />
   };
 
 [@react.component]
@@ -26,7 +26,7 @@ let make = () => {
   let refreshState = () => {
     Api.getState()
     |> Js.Promise.then_(s => {
-         if (shouldUpdateGameState(s, gameState) && playerName != "") {
+         if (shouldUpdateGameState(s, gameState)) {
            setGameState(_ => GameState(s));
          };
          Js.Promise.resolve();

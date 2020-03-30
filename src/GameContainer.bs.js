@@ -3,7 +3,7 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Api$ReasonReactExamples = require("./Api.bs.js");
-var ZoneOne$ReasonReactExamples = require("./ZoneOne.bs.js");
+var Board$ReasonReactExamples = require("./Board.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var AddPlayers$ReasonReactExamples = require("./AddPlayers.bs.js");
 var WaitingOnOthers$ReasonReactExamples = require("./WaitingOnOthers.bs.js");
@@ -19,7 +19,9 @@ function shouldUpdateGameState(s, gs) {
 function gameTime(gs) {
   var match = gs.year;
   if (match !== 0) {
-    return React.createElement(ZoneOne$ReasonReactExamples.make, { });
+    return React.createElement(Board$ReasonReactExamples.make, {
+                state: gs
+              });
   } else {
     return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
   }
@@ -34,7 +36,6 @@ function GameContainer(Props) {
           return "";
         }));
   var setPlayerName = match$1[1];
-  var playerName = match$1[0];
   var match$2 = React.useState((function () {
           return /* NoGameState */0;
         }));
@@ -43,7 +44,7 @@ function GameContainer(Props) {
   React.useEffect((function () {
           var timerId = setInterval((function (param) {
                   Api$ReasonReactExamples.getState(/* () */0).then((function (s) {
-                          if (shouldUpdateGameState(s, gameState) && playerName !== "") {
+                          if (shouldUpdateGameState(s, gameState)) {
                             Curry._1(setGameState, (function (param) {
                                     return /* GameState */[s];
                                   }));
