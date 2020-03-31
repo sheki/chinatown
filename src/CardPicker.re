@@ -23,8 +23,7 @@ module NumberCard = {
 };
 
 [@react.component]
-let make = () => {
-  let numbers = [1, 5, 6, 12, 52, 25];
+let make = (~numbers, ~onSubmit) => {
   let initialState: list((int, bool)) =
     numbers |> List.map(n => (n, false));
 
@@ -53,10 +52,21 @@ let make = () => {
     state
     |> List.map(x => {
          let (n, b) = x;
-         <NumberCard number=n picked=b onClick />;
+         <NumberCard key={string_of_int(n)} number=n picked=b onClick />;
        });
 
   <div className="flex flex-column">
     {elems |> Array.of_list |> React.array}
+    {
+      List.length(clicked) == 2 ?
+        <a
+          className="w4 f6 link dim ph3 pv2 mb2 dib white bg-mid-gray"
+          onClick={_ => onSubmit(clicked)}>
+          {ReasonReact.string("Submit!")}
+        </a> :
+        <div className="w4 f6 link dim ba ph3 pv2 mb2 dib near-black">
+          {ReasonReact.string("Discard Two")}
+        </div>
+    }
   </div>;
 };

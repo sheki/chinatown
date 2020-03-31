@@ -30,25 +30,8 @@ var NumberCard = {
 };
 
 function CardPicker(Props) {
-  var numbers = /* :: */[
-    1,
-    /* :: */[
-      5,
-      /* :: */[
-        6,
-        /* :: */[
-          12,
-          /* :: */[
-            52,
-            /* :: */[
-              25,
-              /* [] */0
-            ]
-          ]
-        ]
-      ]
-    ]
-  ];
+  var numbers = Props.numbers;
+  var onSubmit = Props.onSubmit;
   var initialState = List.map((function (n) {
           return /* tuple */[
                   n,
@@ -106,15 +89,24 @@ function CardPicker(Props) {
     return /* () */0;
   };
   var elems = List.map((function (x) {
+          var n = x[0];
           return React.createElement(CardPicker$NumberCard, {
-                      number: x[0],
+                      number: n,
                       picked: x[1],
-                      onClick: onClick
+                      onClick: onClick,
+                      key: String(n)
                     });
         }), match[0]);
   return React.createElement("div", {
               className: "flex flex-column"
-            }, $$Array.of_list(elems));
+            }, $$Array.of_list(elems), List.length(clicked) === 2 ? React.createElement("a", {
+                    className: "w4 f6 link dim ph3 pv2 mb2 dib white bg-mid-gray",
+                    onClick: (function (param) {
+                        return Curry._1(onSubmit, clicked);
+                      })
+                  }, "Submit!") : React.createElement("div", {
+                    className: "w4 f6 link dim ba ph3 pv2 mb2 dib near-black"
+                  }, "Discard Two"));
 }
 
 var make = CardPicker;
