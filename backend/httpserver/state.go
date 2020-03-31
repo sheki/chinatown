@@ -11,7 +11,7 @@ type State struct {
 	Players         PlayerNames
 	Year            int
 	Phase           TurnPhase
-	TilesAllocation TilesAllocation
+	TilesAllocation *TilesAllocation
 	CardsDealt      int
 	Money           MoneyAllocation
 	Ownership       []TileOwnership
@@ -45,6 +45,10 @@ type TilesAllocation struct {
 	PlayerTwo   []int
 	PlayerThree []int
 	PlayerFour  []int
+}
+
+func (t *TilesAllocation) AllReturned() bool {
+	return len(t.PlayerOne) == 0 && len(t.PlayerTwo) == 0 && len(t.PlayerThree) == 0 && len(t.PlayerFour) == 0
 }
 
 func NewState() *State {
@@ -139,6 +143,10 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 			s.TilesAllocation.PlayerFour = nil
 		}
 		s.tiles = append(s.tiles, tiles...)
+		if s.TilesAllocation.AllReturned() {
+			s.Phase = OpenMarket
+		}
+
 	}
 }
 
@@ -156,7 +164,7 @@ func (s *State) dealCards() {
 		}
 		result = append(result, arr)
 	}
-	allocation := TilesAllocation{
+	allocation := &TilesAllocation{
 		PlayerOne:   result[0],
 		PlayerTwo:   result[1],
 		PlayerThree: result[2],
@@ -200,8 +208,9 @@ func (s *State) RegisterPlayer(name string) {
 	if s.Players.PlayerFour == "" {
 		s.Players.PlayerFour = name
 	}
-
+	s.dealCards()
 	s.Year = 1
+	s.Phase = PickTiles
 }
 
 type PlayerNames struct {
