@@ -128,6 +128,7 @@ func (s *State) SetOwnership(tileNumber int, player string, shop string) {
 }
 
 func (s *State) ReturnTiles(player string, tiles []int) {
+	log.Println("ReturnTiles player=", player, "tiles=", tiles)
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 {
@@ -141,6 +142,8 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 			s.TilesAllocation.PlayerThree = nil
 		case "PlayerFour":
 			s.TilesAllocation.PlayerFour = nil
+		default:
+			panic("WTF")
 		}
 		s.tiles = append(s.tiles, tiles...)
 		if s.TilesAllocation.AllReturned() {

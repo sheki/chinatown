@@ -1,6 +1,8 @@
 'use strict';
 
+var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Api$ReasonReactExamples = require("./Api.bs.js");
 var ZoneOne$ReasonReactExamples = require("./ZoneOne.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var UserTile$ReasonReactExamples = require("./UserTile.bs.js");
@@ -25,17 +27,22 @@ function tilesAllocatedToUser(state, playerName) {
 function Board$TilePane(Props) {
   var state = Props.state;
   var playerName = Props.playerName;
+  var setGameState = Props.setGameState;
+  var num = Response$ReasonReactExamples.findPlayerNumber(state, playerName);
+  var onSubmit = function (x) {
+    Api$ReasonReactExamples.returnTiles(num, x).then((function (s) {
+            Curry._1(setGameState, s);
+            return Promise.resolve(/* () */0);
+          }));
+    return /* () */0;
+  };
   var displayUserPicker = state.phase === "PickTiles";
   if (displayUserPicker) {
-    var num = Response$ReasonReactExamples.findPlayerNumber(state, playerName);
     var myTiles = tilesAllocatedToUser(state, num);
     if (myTiles !== undefined) {
       return React.createElement(CardPicker$ReasonReactExamples.make, {
                   numbers: myTiles,
-                  onSubmit: (function (x) {
-                      console.log(x);
-                      return /* () */0;
-                    })
+                  onSubmit: onSubmit
                 });
     } else {
       return React.createElement("div", {
@@ -55,6 +62,7 @@ var TilePane = {
 function Board(Props) {
   var state = Props.state;
   var playerName = Props.playerName;
+  var setGameState = Props.setGameState;
   return React.createElement("div", {
               className: "flex flex-column items-center pa1"
             }, React.createElement(UserTile$ReasonReactExamples.make, {
@@ -66,7 +74,8 @@ function Board(Props) {
                       className: "fl w-75 pa1"
                     }, React.createElement(ZoneOne$ReasonReactExamples.make, { })), React.createElement(Board$TilePane, {
                       state: state,
-                      playerName: playerName
+                      playerName: playerName,
+                      setGameState: setGameState
                     })));
 }
 

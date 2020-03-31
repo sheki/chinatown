@@ -16,7 +16,7 @@ function shouldUpdateGameState(s, gs) {
   }
 }
 
-function gameTime(gs, playerName) {
+function gameTime(gs, playerName, setGameState) {
   if (gs.year === 0) {
     return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
   } else {
@@ -24,7 +24,8 @@ function gameTime(gs, playerName) {
     if (match === "PickTiles") {
       return React.createElement(Board$ReasonReactExamples.make, {
                   state: gs,
-                  playerName: playerName
+                  playerName: playerName,
+                  setGameState: setGameState
                 });
     } else {
       return React.createElement("div", undefined, "WTF");
@@ -46,6 +47,11 @@ function GameContainer(Props) {
         }));
   var setGameState = match$2[1];
   var gameState = match$2[0];
+  var setGameStateGlobal = function (xs) {
+    return Curry._1(setGameState, (function (param) {
+                  return /* GameState */[xs];
+                }));
+  };
   React.useEffect((function () {
           var timerId = setInterval((function (param) {
                   Api$ReasonReactExamples.getState(/* () */0).then((function (s) {
@@ -57,7 +63,7 @@ function GameContainer(Props) {
                           return Promise.resolve(/* () */0);
                         }));
                   return /* () */0;
-                }), 3000);
+                }), 10000);
           return (function (param) {
                     clearInterval(timerId);
                     return /* () */0;
@@ -83,7 +89,7 @@ function GameContainer(Props) {
                 onNameSubmit: onNameSubmit
               });
   } else if (gameState) {
-    return gameTime(gameState[0], match$1[0]);
+    return gameTime(gameState[0], match$1[0], setGameStateGlobal);
   } else {
     return React.createElement(AddPlayers$ReasonReactExamples.make, {
                 onNameSubmit: onNameSubmit

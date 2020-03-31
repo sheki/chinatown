@@ -1,7 +1,7 @@
 open Response;
 
 module TilePane = {
-  let tilesAllocatedToUser = (~state: state, ~playerName: string) => {
+  let tilesAllocatedToUser = (~state, ~playerName) => {
     let tiles = state.tiles;
     switch (playerName) {
     | "PlayerOne" => tiles.tplayerOne
@@ -12,15 +12,25 @@ module TilePane = {
     };
   };
   [@react.component]
-  let make = (~state, ~playerName) => {
+  let make = (~state, ~playerName, ~setGameState) => {
+    let num = findPlayerNumber(state, playerName);
+    let onSubmit = x => {
+      Api.returnTiles(num, x)
+      |> Js.Promise.then_(s => {
+           setGameState(s);
+           Js.Promise.resolve();
+         })
+      |> ignore;
+      ();
+    };
+
     let displayUserPicker = state.phase == "PickTiles";
     if (!displayUserPicker) {
       <div />;
     } else {
-      let num = findPlayerNumber(state, playerName);
       let myTiles = tilesAllocatedToUser(state, num);
       switch (myTiles) {
-      | Some(tiles) => <CardPicker numbers=tiles onSubmit=(x => Js.log(x)) />
+      | Some(tiles) => <CardPicker numbers=tiles onSubmit />
       | None =>
         <div className="fl w-25 pa1">
           {ReasonReact.string("Waiting on others")}
@@ -31,11 +41,11 @@ module TilePane = {
 };
 
 [@react.component]
-let make = (~state: state, ~playerName: string) =>
+let make = (~state: state, ~playerName: string, ~setGameState) =>
   <div className="flex flex-column items-center pa1">
     <UserTile state playerName />
     <div className="fl w-75 pa1">
       <div className="fl w-75 pa1"> <ZoneOne /> </div>
-      <TilePane state playerName />
+      <TilePane state playerName setGameState />
     </div>
   </div>;
