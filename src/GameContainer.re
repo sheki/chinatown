@@ -11,9 +11,13 @@ let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
   };
 
 let gameTime = (~gs: state, ~playerName: string) =>
-  switch (gs.year) {
-  | 0 => <WaitingOnOthers />
-  | _ => <Board state=gs playerName />
+  if (gs.year == 0) {
+    <WaitingOnOthers />;
+  } else {
+    switch (gs.phase) {
+    | "PickTiles" => <Board state=gs playerName />
+    | _ => <div> {ReasonReact.string("WTF")} </div>
+    };
   };
 
 [@react.component]

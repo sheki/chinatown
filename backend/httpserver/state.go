@@ -208,8 +208,8 @@ func (s *State) RegisterPlayer(name string) {
 	if s.Players.PlayerFour == "" {
 		s.Players.PlayerFour = name
 	}
-	s.dealCards()
 	s.Year = 1
+	s.dealCards()
 	s.Phase = PickTiles
 }
 

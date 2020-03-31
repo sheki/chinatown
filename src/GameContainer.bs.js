@@ -17,14 +17,18 @@ function shouldUpdateGameState(s, gs) {
 }
 
 function gameTime(gs, playerName) {
-  var match = gs.year;
-  if (match !== 0) {
-    return React.createElement(Board$ReasonReactExamples.make, {
-                state: gs,
-                playerName: playerName
-              });
-  } else {
+  if (gs.year === 0) {
     return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
+  } else {
+    var match = gs.phase;
+    if (match === "PickTiles") {
+      return React.createElement(Board$ReasonReactExamples.make, {
+                  state: gs,
+                  playerName: playerName
+                });
+    } else {
+      return React.createElement("div", undefined, "WTF");
+    }
   }
 }
 
