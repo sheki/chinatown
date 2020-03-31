@@ -16,11 +16,12 @@ function shouldUpdateGameState(s, gs) {
   }
 }
 
-function gameTime(gs) {
+function gameTime(gs, playerName) {
   var match = gs.year;
   if (match !== 0) {
     return React.createElement(Board$ReasonReactExamples.make, {
-                state: gs
+                state: gs,
+                playerName: playerName
               });
   } else {
     return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
@@ -78,7 +79,7 @@ function GameContainer(Props) {
                 onNameSubmit: onNameSubmit
               });
   } else if (gameState) {
-    return gameTime(gameState[0]);
+    return gameTime(gameState[0], match$1[0]);
   } else {
     return React.createElement(AddPlayers$ReasonReactExamples.make, {
                 onNameSubmit: onNameSubmit

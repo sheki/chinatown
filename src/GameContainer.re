@@ -10,10 +10,10 @@ let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
   | GameState(old) => old.version < s.version
   };
 
-let gameTime = (~gs: state) =>
+let gameTime = (~gs: state, ~playerName: string) =>
   switch (gs.year) {
   | 0 => <WaitingOnOthers />
-  | _ => <Board state=gs />
+  | _ => <Board state=gs playerName />
   };
 
 [@react.component]
@@ -57,7 +57,7 @@ let make = () => {
   } else {
     switch (gameState) {
     | NoGameState => <AddPlayers onNameSubmit />
-    | GameState(gs) => gameTime(gs)
+    | GameState(gs) => gameTime(gs, playerName)
     };
   };
 };
