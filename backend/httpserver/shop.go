@@ -17,6 +17,54 @@ const (
 	Tea             = "Tea"
 )
 
+var ShopAllocation = []int{6, 3, 3, 3, 3, 3}
+
+var InitialMap = map[Shop]int{
+	Restaurant: 0,
+	Antique:    0,
+	Factory:    0,
+	Dimsum:     0,
+	Laundry:    0,
+	Takeout:    0,
+	Fish:       0,
+	Florist:    0,
+	Jewellery:  0,
+	Photo:      0,
+	Seafood:    0,
+	Tea:        0,
+}
+
+func ShopOfString(s string) Shop {
+	switch s {
+	case "Restaurant":
+		return Restaurant
+	case "Antique":
+		return Antique
+	case "Factory":
+		return Factory
+	case "Dimsum ":
+		return Dimsum
+	case "Laundry":
+		return Laundry
+	case "Takeout":
+		return Takeout
+	case "Fish   ":
+		return Fish
+	case "Florist":
+		return Florist
+	case "Jewelle":
+		return Jewellery
+	case "Photo  ":
+		return Photo
+	case "Seafood":
+		return Seafood
+	case "Tea    ":
+		return Tea
+	default:
+		panic("unknown shop string")
+	}
+}
+
 func InitialShops() []Shop {
 	shops := map[Shop]int{
 		Restaurant: 9,

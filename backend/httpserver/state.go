@@ -18,13 +18,15 @@ type State struct {
 	mutex           *sync.Mutex
 	shops           []Shop
 
+	ShopAllocation map[string]map[Shop]int
+
 	tiles []int
 }
 
 type TileOwnership struct {
 	TileNumber int
 	Player     string
-	Shop       string
+	Shop       Shop
 }
 type TurnPhase string
 
@@ -59,6 +61,12 @@ func NewState() *State {
 		tiles = append(tiles, i)
 		towns = append(towns, TileOwnership{i, "", ""})
 	}
+	shops := map[string]map[Shop]int{
+		"PlayerOne":   InitialMap,
+		"PlayerTwo":   InitialMap,
+		"PlayerThree": InitialMap,
+		"PlayerFour":  InitialMap,
+	}
 	s := &State{
 		Year:       0,
 		CardsDealt: tileRounds[0],
@@ -71,7 +79,8 @@ func NewState() *State {
 			PlayerThree: 50000,
 			PlayerFour:  50000,
 		},
-		shops: InitialShops(),
+		ShopAllocation: shops,
+		shops:          InitialShops(),
 	}
 	return s
 }
@@ -86,6 +95,7 @@ func (s *State) EndYear() {
 		s.Year += 1
 		s.CardsDealt = tileRounds[s.Year]
 		s.dealCards()
+		s.dealShops()
 	}
 }
 
@@ -107,7 +117,7 @@ func (s *State) AddMoney(player string, money int) {
 	}
 }
 
-func (s *State) SetOwnership(tileNumber int, player string, shop string) {
+func (s *State) SetOwnership(tileNumber int, player string, shop Shop) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
@@ -150,16 +160,16 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 		s.tiles = append(s.tiles, tiles...)
 		if s.TilesAllocation.AllReturned() {
 			s.Phase = OpenMarket
+			s.dealShops()
 		}
-
 	}
 }
 
 func (s *State) dealCards() {
 	var result [][]int
 	tiles := s.tiles
+	num := tileRounds[s.Year-1]
 	for i := 0; i < 4; i++ {
-		num := tileRounds[s.Year-1]
 		log.Println("num=", num)
 		var r int
 		var arr []int
@@ -179,7 +189,29 @@ func (s *State) dealCards() {
 	s.tiles = tiles
 }
 
+func (s *State) dealShops() {
+	shops := s.shops
+	toGive := ShopAllocation[s.Year-1]
+	players := []string{"PlayerOne", "PlayerTwo", "PlayerThree", "PlayerFour"}
+	for _, p := range players {
+		for j := 0; j < toGive; j++ {
+			var sh Shop
+			sh, shops = pickRandomShop(shops)
+			v := s.ShopAllocation[p][sh]
+			s.ShopAllocation[p][sh] = v + 1
+		}
+	}
+	s.shops = shops
+}
+
 func pickRandom(slice []int) (int, []int) {
+	s := rand.Intn(len(slice))
+	pick := slice[s]
+	ret := append(slice[:s], slice[s+1:]...)
+	return pick, ret
+}
+
+func pickRandomShop(slice []Shop) (Shop, []Shop) {
 	s := rand.Intn(len(slice))
 	pick := slice[s]
 	ret := append(slice[:s], slice[s+1:]...)
