@@ -1,69 +1,10 @@
+open CityRow;
+
 [@react.component]
 let make = () =>
   <div className="flex flex-column">
-    <div className="flex ma2">
-      {
-        List.map(
-          x =>
-            <Tile
-              id={string_of_int(x)}
-              key={string_of_int(x)}
-              color=Tile.Empty
-              shop=Shop.None
-            />,
-          [71, 72, 73, 74],
-        )
-        |> Array.of_list
-        |> React.array
-      }
-    </div>
-    <div className="flex ma2">
-      {
-        List.map(
-          x =>
-            <Tile
-              id={string_of_int(x)}
-              key={string_of_int(x)}
-              color=Tile.Empty
-              shop=Shop.None
-            />,
-          [75, 76, 77, 78],
-        )
-        |> Array.of_list
-        |> React.array
-      }
-    </div>
-    <div className="flex ma2">
-      {
-        List.map(
-          x =>
-            <Tile
-              id={string_of_int(x)}
-              key={string_of_int(x)}
-              color=Tile.Empty
-              shop=Shop.None
-            />,
-          [79, 80, 81, 82],
-        )
-        |> Array.of_list
-        |> React.array
-      }
-    </div>
-    <div className="flex ma2">
-      {
-        List.map(
-          x =>
-            <Tile
-              id={string_of_int(x)}
-              key={string_of_int(x)}
-              color=Tile.Empty
-              shop=Shop.None
-            />,
-          [83, 84, 85],
-        )
-        |> Array.of_list
-        |> React.array
-      }
-      <BlankTile />
-    </div>
+    <CityRow numbers=[Number(71), Number(72), Number(73), Number(74)] />
+    <CityRow numbers=[Number(75), Number(76), Number(77), Number(78)] />
+    <CityRow numbers=[Number(79), Number(80), Number(81), Number(82)] />
+    <CityRow numbers=[Number(83), Number(84), Number(85), Blank] />
   </div>;
