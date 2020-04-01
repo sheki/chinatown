@@ -27,7 +27,7 @@ function Tile(Props) {
   var style = {
     backgroundColor: bgColor
   };
-  var text = shop >= 10 ? id : Shop$ReasonReactExamples.toEmoji(shop);
+  var text = shop >= 12 ? id : Shop$ReasonReactExamples.toEmoji(shop);
   return React.createElement("div", {
               className: "ba b1 br4 shadow-2 w3 h3 ma1 flex flex-column justify-center item-center",
               style: style

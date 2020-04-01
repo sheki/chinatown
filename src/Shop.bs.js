@@ -3,27 +3,31 @@
 
 function toEmoji(s) {
   switch (s) {
-    case /* Antique */0 :
+    case /* Restaurant */0 :
+        return "🍟";
+    case /* Antique */1 :
         return "🗝️";
-    case /* Dimsum */1 :
-        return "🥟";
     case /* Factory */2 :
         return "🏭";
-    case /* Fish */3 :
-        return "🐠";
-    case /* Florist */4 :
-        return "🌼";
-    case /* Jewellery */5 :
-        return "💍";
-    case /* Laundry */6 :
+    case /* Dimsum */3 :
+        return "🥟";
+    case /* Laundry */4 :
         return "👚";
-    case /* Photo */7 :
-        return "📷";
-    case /* Takeout */8 :
+    case /* Takeout */5 :
         return "🥡";
-    case /* Tea */9 :
+    case /* Fish */6 :
+        return "🐠";
+    case /* Florist */7 :
+        return "🌼";
+    case /* Jewellery */8 :
+        return "💍";
+    case /* Photo */9 :
+        return "📷";
+    case /* Seafood */10 :
+        return "🦀";
+    case /* Tea */11 :
         return "☕";
-    case /* None */10 :
+    case /* None */12 :
         return "";
     
   }

@@ -14,7 +14,7 @@ function CityRow(Props) {
       return React.createElement(Tile$ReasonReactExamples.make, {
                   id: String(x),
                   color: /* Empty */4,
-                  shop: /* None */10,
+                  shop: /* None */12,
                   key: String(x)
                 });
     } else {
