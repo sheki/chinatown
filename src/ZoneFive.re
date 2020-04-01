@@ -1,6 +1,6 @@
 [@react.component]
 let make = () =>
-  <div className="flex flex-column">
+  <div className="flex flex-column br bw1">
     <div className="flex ma2">
       <Tile id="59" color=Tile.Empty shop=Shop.None />
       <Tile id="60" color=Tile.Empty shop=Shop.None />

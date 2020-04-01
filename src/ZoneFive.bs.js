@@ -6,7 +6,7 @@ var BlankTile$ReasonReactExamples = require("./BlankTile.bs.js");
 
 function ZoneFive(Props) {
   return React.createElement("div", {
-              className: "flex flex-column"
+              className: "flex flex-column br bw1"
             }, React.createElement("div", {
                   className: "flex ma2"
                 }, React.createElement(Tile$ReasonReactExamples.make, {

@@ -1,7 +1,7 @@
 module Card = {
   [@react.component]
   let make = (~name: string, ~playerName: string) => {
-    let src = "https://robohash.org/" ++ name ++ ".png?size=200x200";
+    let src = "https://robohash.org/" ++ name ++ ".png?size=200x200&set=set5";
     let style =
       ReactDOMRe.Style.make(~backgroundColor="#000000", ~color="#FFFFFF", ());
 

@@ -3,7 +3,7 @@
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Api$ReasonReactExamples = require("./Api.bs.js");
-var ZoneOne$ReasonReactExamples = require("./ZoneOne.bs.js");
+var City$ReasonReactExamples = require("./City.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var UserTile$ReasonReactExamples = require("./UserTile.bs.js");
 var CardPicker$ReasonReactExamples = require("./CardPicker.bs.js");
@@ -72,7 +72,7 @@ function Board(Props) {
                   className: "fl w-75 pa1"
                 }, React.createElement("div", {
                       className: "fl w-75 pa1"
-                    }, React.createElement(ZoneOne$ReasonReactExamples.make, { })), React.createElement(Board$TilePane, {
+                    }, React.createElement(City$ReasonReactExamples.make, { })), React.createElement(Board$TilePane, {
                       state: state,
                       playerName: playerName,
                       setGameState: setGameState

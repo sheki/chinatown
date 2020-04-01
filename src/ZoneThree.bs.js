@@ -6,9 +6,9 @@ var BlankTile$ReasonReactExamples = require("./BlankTile.bs.js");
 
 function ZoneThree(Props) {
   return React.createElement("div", {
-              className: "flex flex-column"
+              className: "flex flex-column br bw1"
             }, React.createElement("div", {
-                  className: "flex ma2"
+                  className: "flex ma1"
                 }, React.createElement(Tile$ReasonReactExamples.make, {
                       id: "28",
                       color: /* Empty */4,
@@ -22,7 +22,7 @@ function ZoneThree(Props) {
                       color: /* Empty */4,
                       shop: /* None */10
                     }), React.createElement(BlankTile$ReasonReactExamples.make, { })), React.createElement("div", {
-                  className: "flex ma2"
+                  className: "flex ma1"
                 }, React.createElement(Tile$ReasonReactExamples.make, {
                       id: "31",
                       color: /* Empty */4,
@@ -36,7 +36,7 @@ function ZoneThree(Props) {
                       color: /* Empty */4,
                       shop: /* None */10
                     }), React.createElement(BlankTile$ReasonReactExamples.make, { })), React.createElement("div", {
-                  className: "flex ma2"
+                  className: "flex ma1"
                 }, React.createElement(Tile$ReasonReactExamples.make, {
                       id: "34",
                       color: /* Empty */4,
@@ -50,7 +50,7 @@ function ZoneThree(Props) {
                       color: /* Empty */4,
                       shop: /* None */10
                     }), React.createElement(BlankTile$ReasonReactExamples.make, { })), React.createElement("div", {
-                  className: "flex ma2"
+                  className: "flex ma1"
                 }, React.createElement(BlankTile$ReasonReactExamples.make, { }), React.createElement(Tile$ReasonReactExamples.make, {
                       id: "37",
                       color: /* Empty */4,
@@ -64,7 +64,7 @@ function ZoneThree(Props) {
                       color: /* Empty */4,
                       shop: /* None */10
                     })), React.createElement("div", {
-                  className: "flex ma2"
+                  className: "flex ma1"
                 }, React.createElement(BlankTile$ReasonReactExamples.make, { }), React.createElement(Tile$ReasonReactExamples.make, {
                       id: "40",
                       color: /* Empty */4,

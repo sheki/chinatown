@@ -12,7 +12,7 @@ function City(Props) {
   return React.createElement("div", {
               className: "flex flex-column items-center"
             }, React.createElement("div", {
-                  className: "flex justify-center"
+                  className: "flex justify-center bb"
                 }, React.createElement(ZoneOne$ReasonReactExamples.make, { }), React.createElement(ZoneTwo$ReasonReactExamples.make, { }), React.createElement(ZoneThree$ReasonReactExamples.make, { }), React.createElement(ZoneFour$ReasonReactExamples.make, { })), React.createElement("div", {
                   className: "flex justify-center"
                 }, React.createElement(ZoneFive$ReasonReactExamples.make, { }), React.createElement(ZoneSix$ReasonReactExamples.make, { })));

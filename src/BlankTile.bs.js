@@ -7,10 +7,10 @@ function BlankTile(Props) {
     backgroundColor: "#CCCCCC"
   };
   return React.createElement("div", {
-              className: "w3 ma2 ba b1 br4 shadow-2 h3 flex flex-column justify-center item-center",
+              className: "w3 h3 ma1 ba b1 br4 shadow-2 flex flex-column justify-center item-center",
               style: style
             }, React.createElement("div", {
-                  className: "f1 tc"
+                  className: "f4 tc"
                 }));
 }
 

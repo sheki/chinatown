@@ -5,7 +5,7 @@ var React = require("react");
 function UserTile$Card(Props) {
   var name = Props.name;
   var playerName = Props.playerName;
-  var src = "https://robohash.org/" + (name + ".png?size=200x200");
+  var src = "https://robohash.org/" + (name + ".png?size=200x200&set=set5");
   var style = {
     backgroundColor: "#000000",
     color: "#FFFFFF"
