@@ -16,6 +16,7 @@ type State struct {
 	Money           MoneyAllocation
 	Ownership       []TileOwnership
 	mutex           *sync.Mutex
+	shops           []Shop
 
 	tiles []int
 }
@@ -70,6 +71,7 @@ func NewState() *State {
 			PlayerThree: 50000,
 			PlayerFour:  50000,
 		},
+		shops: InitialShops(),
 	}
 	return s
 }
