@@ -1,3 +1,13 @@
+module StringMap = Map.Make({
+  type t = string;
+  let compare = compare
+});
+
+module ShopMap = Map.Make({
+  type t = Shop.shop
+  let compare = compare
+});
+
 type tilesAllocation = {
   // Annoying nuisance
   tplayerOne: option(list(int)),
@@ -19,6 +29,7 @@ type state = {
   year: int,
   phase: string,
   tiles: tilesAllocation,
+  shopTiles: StringMap.t(ShopMap.t(int)),
 };
 
 let findPlayerNumber = (~state as s, ~name as n) => {
@@ -37,6 +48,13 @@ let findPlayerNumber = (~state as s, ~name as n) => {
 };
 
 module Decode = {
+  let dictToStringMap = d => {
+	 Js.Dict.entries(d) |> Array.fold_left((m, entry) => {
+		 let (k,v) = entry;
+		 StringMap.add(k, v, m)
+	 }, StringMap.empty);
+  };
+
   let playerNames = json =>
     Json.Decode.{
       playerOne: json |> field("PlayerOne", string),
@@ -52,6 +70,19 @@ module Decode = {
       tplayerFour: json |> optional(field("PlayerFour", list(int))),
     };
 
+  let decodeShopMap = (json) : ShopMap.t(int) => {
+	 let d = Json.Decode.dict(Json.Decode.int,json);
+	 Js.Dict.entries(d) |> Array.fold_left((m, entry) => {
+		 let (k,v) = entry;
+		 ShopMap.add(Shop.fromString(k), v, m)
+	 }, ShopMap.empty);
+  }
+
+  let yakShave = (json) => {
+	 let d = Json.Decode.dict(decodeShopMap,json);
+	 dictToStringMap(d)
+  }
+
   let state = json =>
     Json.Decode.{
       version: json |> field("Version", int),
@@ -59,5 +90,6 @@ module Decode = {
       players: json |> field("Players", playerNames),
       phase: json |> field("Phase", string),
       tiles: json |> field("TilesAllocation", tilesAllocation),
+      shopTiles: json |> field("ShopAllocation", yakShave),
     };
 };

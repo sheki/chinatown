@@ -1,6 +1,24 @@
 'use strict';
 
+var $$Map = require("bs-platform/lib/js/map.js");
+var $$Array = require("bs-platform/lib/js/array.js");
+var Curry = require("bs-platform/lib/js/curry.js");
+var Js_dict = require("bs-platform/lib/js/js_dict.js");
+var Caml_obj = require("bs-platform/lib/js/caml_obj.js");
 var Json_decode = require("@glennsl/bs-json/src/Json_decode.bs.js");
+var Shop$ReasonReactExamples = require("./Shop.bs.js");
+
+var compare = Caml_obj.caml_compare;
+
+var StringMap = $$Map.Make({
+      compare: compare
+    });
+
+var compare$1 = Caml_obj.caml_compare;
+
+var ShopMap = $$Map.Make({
+      compare: compare$1
+    });
 
 function findPlayerNumber(s, n) {
   var p = s.players;
@@ -15,6 +33,12 @@ function findPlayerNumber(s, n) {
   } else {
     return "";
   }
+}
+
+function dictToStringMap(d) {
+  return $$Array.fold_left((function (m, entry) {
+                return Curry._3(StringMap.add, entry[0], entry[1], m);
+              }), StringMap.empty, Js_dict.entries(d));
 }
 
 function playerNames(json) {
@@ -51,22 +75,39 @@ function tilesAllocation(json) {
         };
 }
 
+function decodeShopMap(json) {
+  var d = Json_decode.dict(Json_decode.$$int, json);
+  return $$Array.fold_left((function (m, entry) {
+                return Curry._3(ShopMap.add, Shop$ReasonReactExamples.fromString(entry[0]), entry[1], m);
+              }), ShopMap.empty, Js_dict.entries(d));
+}
+
+function yakShave(json) {
+  return dictToStringMap(Json_decode.dict(decodeShopMap, json));
+}
+
 function state(json) {
   return {
           players: Json_decode.field("Players", playerNames, json),
           version: Json_decode.field("Version", Json_decode.$$int, json),
           year: Json_decode.field("Year", Json_decode.$$int, json),
           phase: Json_decode.field("Phase", Json_decode.string, json),
-          tiles: Json_decode.field("TilesAllocation", tilesAllocation, json)
+          tiles: Json_decode.field("TilesAllocation", tilesAllocation, json),
+          shopTiles: Json_decode.field("ShopAllocation", yakShave, json)
         };
 }
 
 var Decode = {
+  dictToStringMap: dictToStringMap,
   playerNames: playerNames,
   tilesAllocation: tilesAllocation,
+  decodeShopMap: decodeShopMap,
+  yakShave: yakShave,
   state: state
 };
 
+exports.StringMap = StringMap;
+exports.ShopMap = ShopMap;
 exports.findPlayerNumber = findPlayerNumber;
 exports.Decode = Decode;
-/* No side effect */
+/* StringMap Not a pure module */

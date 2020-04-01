@@ -31,7 +31,7 @@ function AddPlayers(Props) {
                         }, "What shall we call you!"), React.createElement("label", {
                           className: "clip"
                         }, "Name"), React.createElement("input", {
-                          className: "f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-ns",
+                          className: "f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid br2-ns br--left-ns",
                           id: "name",
                           name: "name",
                           placeholder: "Your Name",

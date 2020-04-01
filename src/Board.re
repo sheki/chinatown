@@ -44,8 +44,8 @@ module TilePane = {
 let make = (~state: state, ~playerName: string, ~setGameState) =>
   <div className="flex flex-column items-center pa1">
     <UserTile state playerName />
-    <div className="fl w-75 pa1">
-      <div className="fl w-75 pa1"> <City /> </div>
+    <div className="flex flex-start">
+      <City />
       <TilePane state playerName setGameState />
     </div>
   </div>;

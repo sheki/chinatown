@@ -49,4 +49,4 @@ exports.url = url;
 exports.registerPlayer = registerPlayer;
 exports.getState = getState;
 exports.returnTiles = returnTiles;
-/* No side effect */
+/* Response-ReasonReactExamples Not a pure module */
