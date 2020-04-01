@@ -27,7 +27,7 @@ func setOwnership(w http.ResponseWriter, r *http.Request) {
 	var o ownershipRequest
 	json.NewDecoder(r.Body).Decode(&o)
 	state.SetOwnership(o.TileNumber, o.Player, ShopOfString(o.Shop))
-	json.NewEncoder(w).Encode(state)
+	state.WriteJSON(w)
 }
 
 type moneyRequest struct {
@@ -40,7 +40,7 @@ func addMoney(w http.ResponseWriter, r *http.Request) {
 	var m moneyRequest
 	json.NewDecoder(r.Body).Decode(&m)
 	state.AddMoney(m.Player, m.Money)
-	json.NewEncoder(w).Encode(state)
+	state.WriteJSON(w)
 }
 
 type returnTilesRequest struct {
@@ -53,7 +53,7 @@ func returnTile(w http.ResponseWriter, r *http.Request) {
 	var t returnTilesRequest
 	json.NewDecoder(r.Body).Decode(&t)
 	state.ReturnTiles(t.Player, t.Tiles)
-	json.NewEncoder(w).Encode(state)
+	state.WriteJSON(w)
 }
 
 type registerPlayerRequest struct {
@@ -65,7 +65,7 @@ func registerPlayer(w http.ResponseWriter, r *http.Request) {
 	var p registerPlayerRequest
 	json.NewDecoder(r.Body).Decode(&p)
 	state.RegisterPlayer(p.Name)
-	json.NewEncoder(w).Encode(state)
+	state.WriteJSON(w)
 }
 
 func endTurn(w http.ResponseWriter, r *http.Request) {

@@ -1,6 +1,8 @@
 package httpserver
 
 import (
+	"encoding/json"
+	"io"
 	"log"
 	"math/rand"
 	"sync"
@@ -15,7 +17,7 @@ type State struct {
 	CardsDealt      int
 	Money           MoneyAllocation
 	Ownership       []TileOwnership
-	mutex           *sync.Mutex
+	mutex           *sync.RWMutex
 	shops           []Shop
 
 	ShopAllocation map[string]map[Shop]int
@@ -71,7 +73,7 @@ func NewState() *State {
 		Year:       0,
 		CardsDealt: tileRounds[0],
 		tiles:      tiles,
-		mutex:      &sync.Mutex{},
+		mutex:      &sync.RWMutex{},
 		Ownership:  towns,
 		Money: MoneyAllocation{
 			PlayerOne:   50000,
@@ -91,7 +93,7 @@ func (s *State) EndYear() {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 {
-		s.IncrementVersion()
+		s.incrementVersion()
 		s.Year += 1
 		s.CardsDealt = tileRounds[s.Year]
 		s.dealCards()
@@ -103,7 +105,7 @@ func (s *State) AddMoney(player string, money int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 {
-		s.IncrementVersion()
+		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
 			s.Money.PlayerOne += money
@@ -121,7 +123,7 @@ func (s *State) SetOwnership(tileNumber int, player string, shop Shop) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
-		s.IncrementVersion()
+		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
 			s.Ownership[tileNumber].Player = "PlayerOne"
@@ -144,7 +146,7 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year < 6 {
-		s.IncrementVersion()
+		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
 			s.TilesAllocation.PlayerOne = nil
@@ -218,7 +220,7 @@ func pickRandomShop(slice []Shop) (Shop, []Shop) {
 	return pick, ret
 }
 
-func (s *State) IncrementVersion() {
+func (s *State) incrementVersion() {
 	s.Version += 1
 }
 
@@ -228,7 +230,7 @@ func (s *State) RegisterPlayer(name string) {
 	if s.Year > 0 {
 		return
 	}
-	s.IncrementVersion()
+	s.incrementVersion()
 
 	if s.Players.PlayerOne == "" {
 		s.Players.PlayerOne = name
@@ -248,6 +250,12 @@ func (s *State) RegisterPlayer(name string) {
 	s.Year = 1
 	s.dealCards()
 	s.Phase = PickTiles
+}
+
+func (s *State) WriteJSON(w io.Writer) {
+	s.mutex.RLock()
+	defer s.mutex.RUnlock()
+	json.NewEncoder(w).Encode(s)
 }
 
 type PlayerNames struct {
