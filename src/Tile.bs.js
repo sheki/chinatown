@@ -29,10 +29,10 @@ function Tile(Props) {
   };
   var text = shop >= 10 ? id : Shop$ReasonReactExamples.toEmoji(shop);
   return React.createElement("div", {
-              className: "w3 ba b1 br4 shadow-2 h3 ma2 flex flex-column justify-center item-center",
+              className: "ba b1 br4 shadow-2 h2 w2 ma1 flex flex-column justify-center item-center",
               style: style
             }, React.createElement("div", {
-                  className: "f3 tc"
+                  className: "f4 tc"
                 }, text));
 }
 

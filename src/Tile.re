@@ -25,7 +25,7 @@ let make = (~id: string, ~color: color, ~shop: Shop.shop) => {
     };
   <div
     style
-    className="w3 ba b1 br4 shadow-2 h3 ma2 flex flex-column justify-center item-center">
-    <div className="f3 tc"> {ReasonReact.string(text)} </div>
+    className="ba b1 br4 shadow-2 h2 w2 ma1 flex flex-column justify-center item-center">
+    <div className="f4 tc"> {ReasonReact.string(text)} </div>
   </div>;
 };
