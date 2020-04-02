@@ -52,7 +52,7 @@ func ShopOfString(s string) Shop {
 		return Fish
 	case "Florist":
 		return Florist
-	case "Jewelle":
+	case "Jewellery":
 		return Jewellery
 	case "Photo  ":
 		return Photo

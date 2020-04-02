@@ -16,6 +16,7 @@ let gameTime = (~gs: state, ~playerName: string, ~setGameState) =>
   } else {
     switch (gs.phase) {
     | "PickTiles" => <Board state=gs playerName setGameState />
+    | "OpenMarket" => <Board state=gs playerName setGameState />
     | _ => <div> {ReasonReact.string("WTF")} </div>
     };
   };

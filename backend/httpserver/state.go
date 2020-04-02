@@ -192,6 +192,7 @@ func (s *State) dealCards() {
 }
 
 func (s *State) dealShops() {
+	log.Println("Dealing shops")
 	shops := s.shops
 	toGive := ShopAllocation[s.Year-1]
 	players := []string{"PlayerOne", "PlayerTwo", "PlayerThree", "PlayerFour"}
@@ -202,6 +203,7 @@ func (s *State) dealShops() {
 			v := s.ShopAllocation[p][sh]
 			s.ShopAllocation[p][sh] = v + 1
 		}
+		log.Println(s.ShopAllocation[p])
 	}
 	s.shops = shops
 }

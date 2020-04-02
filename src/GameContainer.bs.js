@@ -21,15 +21,18 @@ function gameTime(gs, playerName, setGameState) {
     return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
   } else {
     var match = gs.phase;
-    if (match === "PickTiles") {
-      return React.createElement(Board$ReasonReactExamples.make, {
-                  state: gs,
-                  playerName: playerName,
-                  setGameState: setGameState
-                });
-    } else {
-      return React.createElement("div", undefined, "WTF");
+    switch (match) {
+      case "OpenMarket" :
+      case "PickTiles" :
+          break;
+      default:
+        return React.createElement("div", undefined, "WTF");
     }
+    return React.createElement(Board$ReasonReactExamples.make, {
+                state: gs,
+                playerName: playerName,
+                setGameState: setGameState
+              });
   }
 }
 

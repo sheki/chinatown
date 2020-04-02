@@ -7,6 +7,7 @@ var City$ReasonReactExamples = require("./City.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var UserTile$ReasonReactExamples = require("./UserTile.bs.js");
 var CardPicker$ReasonReactExamples = require("./CardPicker.bs.js");
+var ShopTileDisplay$ReasonReactExamples = require("./ShopTileDisplay.bs.js");
 
 function tilesAllocatedToUser(state, playerName) {
   var tiles = state.tiles;
@@ -74,6 +75,9 @@ function Board(Props) {
                       state: state,
                       playerName: playerName,
                       setGameState: setGameState
+                    }), React.createElement(ShopTileDisplay$ReasonReactExamples.make, {
+                      state: state,
+                      playerNumber: Response$ReasonReactExamples.findPlayerNumber(state, playerName)
                     })));
 }
 

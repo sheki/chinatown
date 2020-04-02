@@ -1,4 +1,4 @@
-module StringMap = Map.Make({
+module StringMap= Map.Make({
   type t = string;
   let compare = compare
 });
@@ -31,6 +31,8 @@ type state = {
   tiles: tilesAllocation,
   shopTiles: StringMap.t(ShopMap.t(int)),
 };
+
+
 
 let findPlayerNumber = (~state as s, ~name as n) => {
   let p = s.players;
