@@ -2,28 +2,13 @@
 
 var React = require("react");
 var Shop$ReasonReactExamples = require("./Shop.bs.js");
-
-function toHTMLColor(c) {
-  switch (c) {
-    case /* Red */0 :
-        return "#E7040F";
-    case /* Yellow */1 :
-        return "#FFD700";
-    case /* Green */2 :
-        return "#19A974";
-    case /* Blue */3 :
-        return "#357EDD";
-    case /* Empty */4 :
-        return "#F4F4F4";
-    
-  }
-}
+var Players$ReasonReactExamples = require("./Players.bs.js");
 
 function Tile(Props) {
   var id = Props.id;
   var color = Props.color;
   var shop = Props.shop;
-  var bgColor = toHTMLColor(color);
+  var bgColor = Players$ReasonReactExamples.toHTMLColor(color);
   var style = {
     backgroundColor: bgColor
   };
@@ -38,6 +23,5 @@ function Tile(Props) {
 
 var make = Tile;
 
-exports.toHTMLColor = toHTMLColor;
 exports.make = make;
 /* react Not a pure module */

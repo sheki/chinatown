@@ -1,14 +1,5 @@
 open Players;
 
-let toHTMLColor = (c: color) =>
-  switch (c) {
-  | Red => "#E7040F"
-  | Yellow => "#FFD700"
-  | Blue => "#357EDD"
-  | Empty => "#F4F4F4"
-  | Green => "#19A974"
-  };
-
 [@react.component]
 let make = (~id: string, ~color: color, ~shop: Shop.shop) => {
   let bgColor = toHTMLColor(color);
