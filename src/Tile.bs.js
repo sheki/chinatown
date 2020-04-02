@@ -24,6 +24,7 @@ function Tile(Props) {
   var color = Props.color;
   var shop = Props.shop;
   var bgColor = toHTMLColor(color);
+  console.log(id + " bgColor");
   var style = {
     backgroundColor: bgColor
   };

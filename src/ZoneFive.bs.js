@@ -1,70 +1,74 @@
 'use strict';
 
 var React = require("react");
-var Tile$ReasonReactExamples = require("./Tile.bs.js");
-var BlankTile$ReasonReactExamples = require("./BlankTile.bs.js");
+var CityRow$ReasonReactExamples = require("./CityRow.bs.js");
 
 function ZoneFive(Props) {
+  var state = Props.state;
   return React.createElement("div", {
               className: "flex flex-column br bw1"
             }, React.createElement("div", {
-                  className: "flex ma2"
-                }, React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "59",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "60",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(BlankTile$ReasonReactExamples.make, { })), React.createElement("div", {
-                  className: "flex ma2"
-                }, React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "61",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "62",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(BlankTile$ReasonReactExamples.make, { })), React.createElement("div", {
-                  className: "flex ma2"
-                }, React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "63",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "64",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "65",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    })), React.createElement("div", {
-                  className: "flex ma2"
-                }, React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "66",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "67",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "68",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    })), React.createElement("div", {
-                  className: "flex ma2"
-                }, React.createElement(BlankTile$ReasonReactExamples.make, { }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "69",
-                      color: /* Empty */4,
-                      shop: /* None */12
-                    }), React.createElement(Tile$ReasonReactExamples.make, {
-                      id: "70",
-                      color: /* Empty */4,
-                      shop: /* None */12
+                  className: "flex flex-column"
+                }, React.createElement(CityRow$ReasonReactExamples.make, {
+                      numbers: /* :: */[
+                        /* Number */[59],
+                        /* :: */[
+                          /* Number */[60],
+                          /* :: */[
+                            /* Blank */0,
+                            /* [] */0
+                          ]
+                        ]
+                      ],
+                      state: state
+                    }), React.createElement(CityRow$ReasonReactExamples.make, {
+                      numbers: /* :: */[
+                        /* Number */[61],
+                        /* :: */[
+                          /* Number */[62],
+                          /* :: */[
+                            /* Blank */0,
+                            /* [] */0
+                          ]
+                        ]
+                      ],
+                      state: state
+                    }), React.createElement(CityRow$ReasonReactExamples.make, {
+                      numbers: /* :: */[
+                        /* Number */[63],
+                        /* :: */[
+                          /* Number */[64],
+                          /* :: */[
+                            /* Number */[65],
+                            /* [] */0
+                          ]
+                        ]
+                      ],
+                      state: state
+                    }), React.createElement(CityRow$ReasonReactExamples.make, {
+                      numbers: /* :: */[
+                        /* Number */[66],
+                        /* :: */[
+                          /* Number */[67],
+                          /* :: */[
+                            /* Number */[68],
+                            /* [] */0
+                          ]
+                        ]
+                      ],
+                      state: state
+                    }), React.createElement(CityRow$ReasonReactExamples.make, {
+                      numbers: /* :: */[
+                        /* Blank */0,
+                        /* :: */[
+                          /* Number */[69],
+                          /* :: */[
+                            /* Number */[70],
+                            /* [] */0
+                          ]
+                        ]
+                      ],
+                      state: state
                     })));
 }
 

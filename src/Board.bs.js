@@ -70,7 +70,9 @@ function Board(Props) {
                   playerName: playerName
                 }), React.createElement("div", {
                   className: "flex flex-start"
-                }, React.createElement(City$ReasonReactExamples.make, { }), React.createElement(Board$TilePane, {
+                }, React.createElement(City$ReasonReactExamples.make, {
+                      state: state
+                    }), React.createElement(Board$TilePane, {
                       state: state,
                       playerName: playerName,
                       setGameState: setGameState

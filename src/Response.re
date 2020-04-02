@@ -23,12 +23,20 @@ type playerNames = {
   playerFour: string,
 };
 
+
+type tileOwnership = {
+	player: string,
+	shop: Shop.shop,
+	number: int,
+};
+
 type state = {
   players: playerNames,
   version: int,
   year: int,
   phase: string,
   tiles: tilesAllocation,
+  ownership: array(tileOwnership),
   shopTiles: StringMap.t(ShopMap.t(int)),
 };
 
@@ -96,6 +104,19 @@ module Decode = {
 	 dictToStringMap(d)
   }
 
+  let decodeShop = json => {
+	 let d = Json.Decode.string(json);
+	 Shop.fromString(d);
+  }
+
+  let tileOwnership = json => {
+	  Json.Decode.{
+	player: json |> field("Player", string),
+	number: json |> field("TileNumber", int),
+	shop : json |> field("Shop", decodeShop),
+	  };
+  }
+
   let state = json =>
     Json.Decode.{
       version: json |> field("Version", int),
@@ -104,5 +125,6 @@ module Decode = {
       phase: json |> field("Phase", string),
       tiles: json |> field("TilesAllocation", tilesAllocation),
       shopTiles: json |> field("ShopAllocation", yakShave),
+      ownership: json |> field("Ownership", array(tileOwnership)),
     };
 };

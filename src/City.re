@@ -1,11 +1,14 @@
 [@react.component]
-let make = () =>
+let make = (~state) =>
   <div className="flex flex-column items-center">
     <div className="flex justify-center bb">
-      <ZoneOne />
-      <ZoneTwo />
-      <ZoneThree />
-      <ZoneFour />
+      <ZoneOne state />
+      <ZoneTwo state />
+      <ZoneThree state />
+      <ZoneFour state />
     </div>
-    <div className="flex justify-center"> <ZoneFive /> <ZoneSix /> </div>
+    <div className="flex justify-center">
+      <ZoneFive state />
+      <ZoneSix state />
+    </div>
   </div>;

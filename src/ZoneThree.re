@@ -1,34 +1,11 @@
+open CityRow;
+
 [@react.component]
-let make = () =>
+let make = (~state) =>
   <div className="flex flex-column br bw1">
-    <div className="flex ma1">
-      <Tile id="28" color=Tile.Empty shop=Shop.None />
-      <Tile id="29" color=Tile.Empty shop=Shop.None />
-      <Tile id="30" color=Tile.Empty shop=Shop.None />
-      <BlankTile />
-    </div>
-    <div className="flex ma1">
-      <Tile id="31" color=Tile.Empty shop=Shop.None />
-      <Tile id="32" color=Tile.Empty shop=Shop.None />
-      <Tile id="33" color=Tile.Empty shop=Shop.None />
-      <BlankTile />
-    </div>
-    <div className="flex ma1">
-      <Tile id="34" color=Tile.Empty shop=Shop.None />
-      <Tile id="35" color=Tile.Empty shop=Shop.None />
-      <Tile id="36" color=Tile.Empty shop=Shop.None />
-      <BlankTile />
-    </div>
-    <div className="flex ma1">
-      <BlankTile />
-      <Tile id="37" color=Tile.Empty shop=Shop.None />
-      <Tile id="38" color=Tile.Empty shop=Shop.None />
-      <Tile id="39" color=Tile.Empty shop=Shop.None />
-    </div>
-    <div className="flex ma1">
-      <BlankTile />
-      <Tile id="40" color=Tile.Empty shop=Shop.None />
-      <Tile id="41" color=Tile.Empty shop=Shop.None />
-      <Tile id="42" color=Tile.Empty shop=Shop.None />
-    </div>
+    <CityRow state numbers=[Number(28), Number(29), Number(30), Blank] />
+    <CityRow state numbers=[Number(31), Number(32), Number(33), Blank] />
+    <CityRow state numbers=[Number(34), Number(35), Number(36), Blank] />
+    <CityRow state numbers=[Blank, Number(37), Number(38), Number(39)] />
+    <CityRow state numbers=[Blank, Number(40), Number(41), Number(42)] />
   </div>;

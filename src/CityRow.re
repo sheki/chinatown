@@ -1,18 +1,25 @@
+open Response;
+
 type tileType =
   | Blank
   | Number(int);
 
 [@react.component]
-let make = (~numbers) => {
+let make = (~numbers, ~state: state) => {
   let ren = y =>
     switch (y) {
     | Number(x) =>
-      <Tile
-        id={string_of_int(x)}
-        key={string_of_int(x)}
-        color=Tile.Empty
-        shop=Shop.None
-      />
+      let o = state.ownership[x - 1];
+      Js.log(o.player);
+      let color = Players.colorFromPlayer(o.player);
+      let shop = o.shop;
+      if (o.player == "PlayerFour") {
+        Js.log(
+          string_of_int(x) ++ " PlayerFour" ++ Players.colorToString(color),
+        );
+      };
+
+      <Tile id={string_of_int(x)} key={string_of_int(x)} color shop />;
     | Blank => <BlankTile />
     };
 

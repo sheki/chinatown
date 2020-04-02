@@ -45,7 +45,7 @@ let make = (~state: state, ~playerName: string, ~setGameState) =>
   <div className="flex flex-column items-center pa1">
     <UserTile state playerName />
     <div className="flex flex-start">
-      <City />
+      <City state />
       <TilePane state playerName setGameState />
     </div>
   </div>;

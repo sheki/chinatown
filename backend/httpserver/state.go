@@ -196,7 +196,7 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerThree, tiles), "PlayerThree")
 			s.TilesAllocation.PlayerThree = nil
 		case "PlayerFour":
-			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerFour, tiles), "PlayerTwo")
+			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerFour, tiles), "PlayerFour")
 			s.TilesAllocation.PlayerFour = nil
 		default:
 			panic("WTF")

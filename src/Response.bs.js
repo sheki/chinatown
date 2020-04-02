@@ -102,6 +102,18 @@ function yakShave(json) {
   return dictToStringMap(Json_decode.dict(decodeShopMap, json));
 }
 
+function decodeShop(json) {
+  return Shop$ReasonReactExamples.fromString(Json_decode.string(json));
+}
+
+function tileOwnership(json) {
+  return {
+          player: Json_decode.field("Player", Json_decode.string, json),
+          shop: Json_decode.field("Shop", decodeShop, json),
+          number: Json_decode.field("TileNumber", Json_decode.$$int, json)
+        };
+}
+
 function state(json) {
   return {
           players: Json_decode.field("Players", playerNames, json),
@@ -109,6 +121,9 @@ function state(json) {
           year: Json_decode.field("Year", Json_decode.$$int, json),
           phase: Json_decode.field("Phase", Json_decode.string, json),
           tiles: Json_decode.field("TilesAllocation", tilesAllocation, json),
+          ownership: Json_decode.field("Ownership", (function (param) {
+                  return Json_decode.array(tileOwnership, param);
+                }), json),
           shopTiles: Json_decode.field("ShopAllocation", yakShave, json)
         };
 }
@@ -119,6 +134,8 @@ var Decode = {
   tilesAllocation: tilesAllocation,
   decodeShopMap: decodeShopMap,
   yakShave: yakShave,
+  decodeShop: decodeShop,
+  tileOwnership: tileOwnership,
   state: state
 };
 

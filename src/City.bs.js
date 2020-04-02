@@ -9,13 +9,26 @@ var ZoneFour$ReasonReactExamples = require("./ZoneFour.bs.js");
 var ZoneThree$ReasonReactExamples = require("./ZoneThree.bs.js");
 
 function City(Props) {
+  var state = Props.state;
   return React.createElement("div", {
               className: "flex flex-column items-center"
             }, React.createElement("div", {
                   className: "flex justify-center bb"
-                }, React.createElement(ZoneOne$ReasonReactExamples.make, { }), React.createElement(ZoneTwo$ReasonReactExamples.make, { }), React.createElement(ZoneThree$ReasonReactExamples.make, { }), React.createElement(ZoneFour$ReasonReactExamples.make, { })), React.createElement("div", {
+                }, React.createElement(ZoneOne$ReasonReactExamples.make, {
+                      state: state
+                    }), React.createElement(ZoneTwo$ReasonReactExamples.make, {
+                      state: state
+                    }), React.createElement(ZoneThree$ReasonReactExamples.make, {
+                      state: state
+                    }), React.createElement(ZoneFour$ReasonReactExamples.make, {
+                      state: state
+                    })), React.createElement("div", {
                   className: "flex justify-center"
-                }, React.createElement(ZoneFive$ReasonReactExamples.make, { }), React.createElement(ZoneSix$ReasonReactExamples.make, { })));
+                }, React.createElement(ZoneFive$ReasonReactExamples.make, {
+                      state: state
+                    }), React.createElement(ZoneSix$ReasonReactExamples.make, {
+                      state: state
+                    })));
 }
 
 var make = City;
