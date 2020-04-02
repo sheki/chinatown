@@ -16,20 +16,28 @@ type State struct {
 	TilesAllocation *TilesAllocation
 	CardsDealt      int
 	Money           MoneyAllocation
-	Ownership       []TileOwnership
-	mutex           *sync.RWMutex
-	shops           []Shop
+	Ownership       []*TileOwnership
+	ShopAllocation  map[string]map[Shop]int
 
-	ShopAllocation map[string]map[Shop]int
-
+	mutex *sync.RWMutex
+	shops []Shop
 	tiles []int
 }
 
 type TileOwnership struct {
-	TileNumber int
-	Player     string
-	Shop       Shop
+	TileNumber       int
+	Player           string
+	Shop             Shop
+	unrevealedPlayer string
 }
+
+func (t *TileOwnership) reveal() {
+	if t.unrevealedPlayer != "" && t.Player == "" {
+		t.Player = t.unrevealedPlayer
+		t.unrevealedPlayer = ""
+	}
+}
+
 type TurnPhase string
 
 const (
@@ -58,10 +66,10 @@ func (t *TilesAllocation) AllReturned() bool {
 
 func NewState() *State {
 	var tiles []int
-	var towns []TileOwnership
+	var towns []*TileOwnership
 	for i := 1; i <= 85; i++ {
 		tiles = append(tiles, i)
-		towns = append(towns, TileOwnership{i, "", ""})
+		towns = append(towns, &TileOwnership{i, "", "", ""})
 	}
 	shops := map[string]map[Shop]int{
 		"PlayerOne":   InitialMap,
@@ -141,6 +149,36 @@ func (s *State) SetOwnership(tileNumber int, player string, shop Shop) {
 	}
 }
 
+func arrRemove(a []int, b []int) []int {
+	var result []int
+	for _, v := range a {
+		present := false
+		for _, vv := range b {
+			if vv == v {
+				present = true
+				break
+			}
+		}
+		if present {
+			continue
+		}
+		result = append(result, v)
+	}
+	return result
+}
+
+func (s *State) markUnrevealed(tiles []int, player string) {
+	for _, v := range tiles {
+		s.Ownership[v].unrevealedPlayer = player
+	}
+}
+
+func (s *State) revealTiles() {
+	for _, v := range s.Ownership {
+		v.reveal()
+	}
+}
+
 func (s *State) ReturnTiles(player string, tiles []int) {
 	log.Println("ReturnTiles player=", player, "tiles=", tiles)
 	s.mutex.Lock()
@@ -149,12 +187,16 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
+			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerOne, tiles), "PlayerOne")
 			s.TilesAllocation.PlayerOne = nil
 		case "PlayerTwo":
+			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerTwo, tiles), "PlayerTwo")
 			s.TilesAllocation.PlayerTwo = nil
 		case "PlayerThree":
+			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerThree, tiles), "PlayerThree")
 			s.TilesAllocation.PlayerThree = nil
 		case "PlayerFour":
+			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerFour, tiles), "PlayerTwo")
 			s.TilesAllocation.PlayerFour = nil
 		default:
 			panic("WTF")
@@ -163,6 +205,7 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 		if s.TilesAllocation.AllReturned() {
 			s.Phase = OpenMarket
 			s.dealShops()
+			s.revealTiles()
 		}
 	}
 }
