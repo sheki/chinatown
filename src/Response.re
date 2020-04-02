@@ -49,6 +49,17 @@ let findPlayerNumber = (~state as s, ~name as n) => {
   };
 };
 
+let findPlayerName = (state, number) => {
+	let players = state.players;
+	switch(number)  {
+		| "PlayerOne" => players.playerOne
+		| "PlayerTwo" => players.playerTwo
+		| "PlayerThree" => players.playerThree
+		| "PlayerFour" => players.playerFour
+		| _ => ""
+	};
+}
+
 module Decode = {
   let dictToStringMap = d => {
 	 Js.Dict.entries(d) |> Array.fold_left((m, entry) => {

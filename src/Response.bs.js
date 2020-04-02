@@ -35,6 +35,22 @@ function findPlayerNumber(s, n) {
   }
 }
 
+function findPlayerName(state, number) {
+  var players = state.players;
+  switch (number) {
+    case "PlayerFour" :
+        return players.playerFour;
+    case "PlayerOne" :
+        return players.playerOne;
+    case "PlayerThree" :
+        return players.playerThree;
+    case "PlayerTwo" :
+        return players.playerTwo;
+    default:
+      return "";
+  }
+}
+
 function dictToStringMap(d) {
   return $$Array.fold_left((function (m, entry) {
                 return Curry._3(StringMap.add, entry[0], entry[1], m);
@@ -109,5 +125,6 @@ var Decode = {
 exports.StringMap = StringMap;
 exports.ShopMap = ShopMap;
 exports.findPlayerNumber = findPlayerNumber;
+exports.findPlayerName = findPlayerName;
 exports.Decode = Decode;
 /* StringMap Not a pure module */

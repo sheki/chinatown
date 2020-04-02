@@ -47,9 +47,5 @@ let make = (~state: state, ~playerName: string, ~setGameState) =>
     <div className="flex flex-start">
       <City />
       <TilePane state playerName setGameState />
-      <ShopTileDisplay
-        state
-        playerNumber={findPlayerNumber(state, playerName)}
-      />
     </div>
   </div>;

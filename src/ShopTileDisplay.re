@@ -1,14 +1,19 @@
 open Response;
 
-let shopTileString = (~k, ~v) =>
-  Shop.toEmoji(k) ++ " x " ++ string_of_int(v);
+let shopTileString = (k, v) => Shop.toEmoji(k) ++ " x " ++ string_of_int(v);
 
-let userTiles = (~shopTiles, ~playerNumber: string) => {
-  Js.log("OK");
-  Js.log(shopTiles);
-  Js.log(playerNumber);
+let userTiles = (shopTiles, playerNumber: string) => {
   let c = StringMap.find(playerNumber, shopTiles);
-  ShopMap.fold((k, v, l) => [shopTileString(k, v), ...l], c, []);
+  ShopMap.fold(
+    (k, v, l) =>
+      if (v == 0) {
+        l;
+      } else {
+        [shopTileString(k, v), ...l];
+      },
+    c,
+    [],
+  );
 };
 
 [@react.component]

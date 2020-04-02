@@ -12,15 +12,16 @@ function shopTileString(k, v) {
 }
 
 function userTiles(shopTiles, playerNumber) {
-  console.log("OK");
-  console.log(shopTiles);
-  console.log(playerNumber);
   var c = Curry._2(Response$ReasonReactExamples.StringMap.find, playerNumber, shopTiles);
   return Curry._3(Response$ReasonReactExamples.ShopMap.fold, (function (k, v, l) {
-                return /* :: */[
-                        shopTileString(k, v),
-                        l
-                      ];
+                if (v === 0) {
+                  return l;
+                } else {
+                  return /* :: */[
+                          shopTileString(k, v),
+                          l
+                        ];
+                }
               }), c, /* [] */0);
 }
 
