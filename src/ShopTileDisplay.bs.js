@@ -32,7 +32,7 @@ function ShopTileDisplay(Props) {
   var what = $$Array.of_list(List.map((function (x) {
               return React.createElement("div", {
                           key: x,
-                          className: "ma1"
+                          className: "ma1 f2"
                         }, x);
             }), tiles));
   return React.createElement("div", {

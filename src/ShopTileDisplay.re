@@ -22,7 +22,7 @@ let make = (~state: state, ~playerNumber: string) => {
   let what =
     tiles
     |> List.map(x =>
-         <div key=x className="ma1"> {ReasonReact.string(x)} </div>
+         <div key=x className="ma1 f2"> {ReasonReact.string(x)} </div>
        )
     |> Array.of_list
     |> React.array;

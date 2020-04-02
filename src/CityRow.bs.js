@@ -15,12 +15,8 @@ function CityRow(Props) {
     if (y) {
       var x = y[0];
       var o = Caml_array.caml_array_get(state.ownership, x - 1 | 0);
-      console.log(o.player);
       var color = Players$ReasonReactExamples.colorFromPlayer(o.player);
       var shop = o.shop;
-      if (o.player === "PlayerFour") {
-        console.log(String(x) + (" PlayerFour" + Players$ReasonReactExamples.colorToString(color)));
-      }
       return React.createElement(Tile$ReasonReactExamples.make, {
                   id: String(x),
                   color: color,

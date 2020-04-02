@@ -34,7 +34,6 @@ let returnTiles = (~player: string, ~numbers: list(int)) => {
   let js_arr = numbers |> List.map(x => float_of_int(x)) |> Array.of_list;
   Js.Dict.set(payload, "Player", Js.Json.string(player));
   Js.Dict.set(payload, "Tiles", Js.Json.numberArray(js_arr));
-  Js.log("returnTile being called");
 
   Js.Promise.(
     Fetch.fetchWithInit(

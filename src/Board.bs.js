@@ -66,8 +66,7 @@ function Board(Props) {
   return React.createElement("div", {
               className: "flex flex-column items-center pa1"
             }, React.createElement(UserTile$ReasonReactExamples.make, {
-                  state: state,
-                  playerName: playerName
+                  state: state
                 }), React.createElement("div", {
                   className: "flex flex-start"
                 }, React.createElement(City$ReasonReactExamples.make, {

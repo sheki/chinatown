@@ -35,7 +35,6 @@ function returnTiles(player, numbers) {
             }), numbers));
   payload["Player"] = player;
   payload["Tiles"] = js_arr;
-  console.log("returnTile being called");
   return fetch("http://localhost:8080/returnTile", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {

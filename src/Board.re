@@ -43,7 +43,7 @@ module TilePane = {
 [@react.component]
 let make = (~state: state, ~playerName: string, ~setGameState) =>
   <div className="flex flex-column items-center pa1">
-    <UserTile state playerName />
+    <UserTile state />
     <div className="flex flex-start">
       <City state />
       <TilePane state playerName setGameState />

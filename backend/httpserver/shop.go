@@ -19,19 +19,21 @@ const (
 
 var ShopAllocation = []int{6, 3, 3, 3, 3, 3}
 
-var InitialMap = map[Shop]int{
-	Restaurant: 0,
-	Antique:    0,
-	Factory:    0,
-	Dimsum:     0,
-	Laundry:    0,
-	Takeout:    0,
-	Fish:       0,
-	Florist:    0,
-	Jewellery:  0,
-	Photo:      0,
-	Seafood:    0,
-	Tea:        0,
+func NewShopMap() map[Shop]int {
+	return map[Shop]int{
+		Restaurant: 0,
+		Antique:    0,
+		Factory:    0,
+		Dimsum:     0,
+		Laundry:    0,
+		Takeout:    0,
+		Fish:       0,
+		Florist:    0,
+		Jewellery:  0,
+		Photo:      0,
+		Seafood:    0,
+		Tea:        0,
+	}
 }
 
 func ShopOfString(s string) Shop {

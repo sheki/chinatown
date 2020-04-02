@@ -72,10 +72,10 @@ func NewState() *State {
 		towns = append(towns, &TileOwnership{i, "", "", ""})
 	}
 	shops := map[string]map[Shop]int{
-		"PlayerOne":   InitialMap,
-		"PlayerTwo":   InitialMap,
-		"PlayerThree": InitialMap,
-		"PlayerFour":  InitialMap,
+		"PlayerOne":   NewShopMap(),
+		"PlayerTwo":   NewShopMap(),
+		"PlayerThree": NewShopMap(),
+		"PlayerFour":  NewShopMap(),
 	}
 	s := &State{
 		Year:       0,
@@ -105,7 +105,6 @@ func (s *State) EndYear() {
 		s.Year += 1
 		s.CardsDealt = tileRounds[s.Year]
 		s.dealCards()
-		s.dealShops()
 	}
 }
 
@@ -235,7 +234,6 @@ func (s *State) dealCards() {
 }
 
 func (s *State) dealShops() {
-	log.Println("Dealing shops")
 	shops := s.shops
 	toGive := ShopAllocation[s.Year-1]
 	players := []string{"PlayerOne", "PlayerTwo", "PlayerThree", "PlayerFour"}
@@ -246,7 +244,7 @@ func (s *State) dealShops() {
 			v := s.ShopAllocation[p][sh]
 			s.ShopAllocation[p][sh] = v + 1
 		}
-		log.Println(s.ShopAllocation[p])
+		log.Println("Shops=", s.ShopAllocation[p], "player=", p)
 	}
 	s.shops = shops
 }

@@ -12,7 +12,6 @@ let toHTMLColor = (c: color) =>
 [@react.component]
 let make = (~id: string, ~color: color, ~shop: Shop.shop) => {
   let bgColor = toHTMLColor(color);
-  Js.log(id ++ " bgColor");
   let style = ReactDOMRe.Style.make(~backgroundColor=bgColor, ());
   let text =
     switch (shop) {
