@@ -17,7 +17,7 @@ let make = (~onNameSubmit: (~n: string) => unit) => {
     <form className="center pa4 br2-ns ba b--black-10">
       <fieldset className="bn ma0 pa0">
         <legend className="pa0 f5 f4-ns mb3 black-80">
-          {ReasonReact.string("What shall we call you!")}
+          {ReasonReact.string("What shall we call you?")}
         </legend>
         <label className="clip"> {ReasonReact.string("Name")} </label>
         <input
@@ -30,7 +30,7 @@ let make = (~onNameSubmit: (~n: string) => unit) => {
           onChange
         />
         <input
-          className="f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns"
+          className="f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer br2-ns br--right-ns"
           value="Register"
           type_="submit"
         />

@@ -28,7 +28,7 @@ function AddPlayers(Props) {
                       className: "bn ma0 pa0"
                     }, React.createElement("legend", {
                           className: "pa0 f5 f4-ns mb3 black-80"
-                        }, "What shall we call you!"), React.createElement("label", {
+                        }, "What shall we call you?"), React.createElement("label", {
                           className: "clip"
                         }, "Name"), React.createElement("input", {
                           className: "f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid br2-ns br--left-ns",
@@ -39,7 +39,7 @@ function AddPlayers(Props) {
                           value: name,
                           onChange: onChange
                         }), React.createElement("input", {
-                          className: "f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns",
+                          className: "f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer br2-ns br--right-ns",
                           type: "submit",
                           value: "Register"
                         }))));
