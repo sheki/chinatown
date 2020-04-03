@@ -32,6 +32,38 @@ function fromString(s) {
   }
 }
 
+function toString(s) {
+  switch (s) {
+    case /* Restaurant */0 :
+        return "Restaurant";
+    case /* Antique */1 :
+        return "Antique";
+    case /* Factory */2 :
+        return "Factory";
+    case /* Dimsum */3 :
+        return "Dimsum";
+    case /* Laundry */4 :
+        return "Laundry";
+    case /* Takeout */5 :
+        return "Takeout";
+    case /* Fish */6 :
+        return "Fish";
+    case /* Florist */7 :
+        return "Florist";
+    case /* Jewellery */8 :
+        return "Jewellery";
+    case /* Photo */9 :
+        return "Photo";
+    case /* Seafood */10 :
+        return "Seafood";
+    case /* Tea */11 :
+        return "Tea";
+    case /* None */12 :
+        return "";
+    
+  }
+}
+
 function toEmoji(s) {
   switch (s) {
     case /* Restaurant */0 :
@@ -65,5 +97,6 @@ function toEmoji(s) {
 }
 
 exports.fromString = fromString;
+exports.toString = toString;
 exports.toEmoji = toEmoji;
 /* No side effect */

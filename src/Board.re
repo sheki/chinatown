@@ -48,4 +48,5 @@ let make = (~state: state, ~playerName: string, ~setGameState) =>
       <City state />
       <TilePane state playerName setGameState />
     </div>
+    <HelpBoard />
   </div>;

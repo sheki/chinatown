@@ -9,7 +9,7 @@ let make = (~onNameSubmit: (~n: string) => unit) => {
 
   let onSubmit = (e: ReactEvent.Form.t): unit => {
     ReactEvent.Form.preventDefault(e);
-    onNameSubmit(name);
+    onNameSubmit(~n=name);
   };
 
   <div className="flex flex-column items-center pa4" onSubmit>

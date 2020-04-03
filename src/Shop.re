@@ -30,6 +30,23 @@ let fromString = (s: string) =>
   | _ => None
   };
 
+let toString = s =>
+  switch (s) {
+  | Restaurant => "Restaurant"
+  | Antique => "Antique"
+  | Factory => "Factory"
+  | Dimsum => "Dimsum"
+  | Laundry => "Laundry"
+  | Takeout => "Takeout"
+  | Fish => "Fish"
+  | Florist => "Florist"
+  | Jewellery => "Jewellery"
+  | Photo => "Photo"
+  | Seafood => "Seafood"
+  | Tea => "Tea"
+  | _ => ""
+  };
+
 let toEmoji = (s: shop) =>
   switch (s) {
   | Antique => {js|🗝️|js}
