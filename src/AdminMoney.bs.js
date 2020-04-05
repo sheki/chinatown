@@ -10,25 +10,59 @@ var Response$ReasonReactExamples = require("./Response.bs.js");
 function AdminMoney(Props) {
   var state = Props.state;
   var setGameState = Props.setGameState;
-  var addMoney = function (player, i) {
-    Api$ReasonReactExamples.addMoney(player, i).then((function (s) {
-            Curry._1(setGameState, s);
-            return Promise.resolve(/* () */0);
-          }));
-    return /* () */0;
-  };
+  var monies_001 = /* :: */[
+    0,
+    /* :: */[
+      -10,
+      /* :: */[
+        0,
+        /* :: */[
+          50,
+          /* :: */[
+            0,
+            /* :: */[
+              -50,
+              /* :: */[
+                0,
+                /* :: */[
+                  100,
+                  /* :: */[
+                    -100,
+                    /* :: */[
+                      0,
+                      /* [] */0
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ];
+  var monies = /* :: */[
+    10,
+    monies_001
+  ];
   var buttons = function (player) {
-    return React.createElement("div", undefined, React.createElement("a", {
-                    className: "f6 link dim br3 ph3 pv2 mb2 dib white bg-dark-blue mr1",
-                    onClick: (function (param) {
-                        return addMoney(player, 10000);
-                      })
-                  }, "+10,000"), React.createElement("a", {
-                    className: "f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink",
-                    onClick: (function (param) {
-                        return addMoney(player, 10000);
-                      })
-                  }, "-10,000"));
+    var x = $$Array.of_list(List.map((function (m) {
+                var color = m > 0 ? "bg-dark-blue" : "bg-hot-pink";
+                return React.createElement("a", {
+                            key: String(m),
+                            className: "f6 link dim br3 ph3 pv2 mb2 dib white mr1 " + color,
+                            onClick: (function (param) {
+                                var player$1 = player;
+                                var i = m;
+                                Api$ReasonReactExamples.addMoney(player$1, i).then((function (s) {
+                                        Curry._1(setGameState, s);
+                                        return Promise.resolve(/* () */0);
+                                      }));
+                                return /* () */0;
+                              })
+                          }, String(m));
+              }), monies));
+    return React.createElement("div", undefined, x);
   };
   return React.createElement("table", {
               className: "collapse ma2 ba br2 b--black-10 pv2 ph3"

@@ -12,19 +12,37 @@ let make = (~state, ~setGameState) => {
        })
     |> ignore;
 
-  let buttons = player =>
-    <div>
-      <a
-        className="f6 link dim br3 ph3 pv2 mb2 dib white bg-dark-blue mr1"
-        onClick={_ => addMoney(player, 10000)}>
-        {ReasonReact.string("+10,000")}
-      </a>
-      <a
-        className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink"
-        onClick={_ => addMoney(player, 10000)}>
-        {ReasonReact.string("-10,000")}
-      </a>
-    </div>;
+  let monies = [
+    10,
+    000,
+    (-10),
+    000,
+    50,
+    000,
+    (-50),
+    000,
+    100,
+    000 - 100,
+    000,
+  ];
+
+  let buttons = player => {
+    let x =
+      monies
+      |> List.map(m => {
+           let color = m > 0 ? "bg-dark-blue" : "bg-hot-pink";
+           <a
+             key={string_of_int(m)}
+             className={"f6 link dim br3 ph3 pv2 mb2 dib white mr1 " ++ color}
+             onClick={_ => addMoney(player, m)}>
+             {ReasonReact.string(string_of_int(m))}
+           </a>;
+         })
+      |> Array.of_list
+      |> React.array;
+
+    <div> x </div>;
+  };
 
   <table className="collapse ma2 ba br2 b--black-10 pv2 ph3">
     <tbody>
