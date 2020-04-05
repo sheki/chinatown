@@ -135,3 +135,22 @@ let setTile = (s: string, m: int) => {
     |> then_(j => resolve(Response.Decode.state(j)))
   );
 };
+
+let endYear = () => {
+  let payload = Js.Dict.empty();
+
+  Js.Promise.(
+    Fetch.fetchWithInit(
+      url ++ "endYear",
+      Fetch.RequestInit.make(
+        ~method_=Post,
+        ~body=
+          Fetch.BodyInit.make(Js.Json.stringify(Js.Json.object_(payload))),
+        ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+        (),
+      ),
+    )
+    |> then_(Fetch.Response.json)
+    |> then_(j => resolve(Response.Decode.state(j)))
+  );
+};

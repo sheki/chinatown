@@ -15,7 +15,6 @@ type State struct {
 	Year            int
 	Phase           TurnPhase
 	TilesAllocation *TilesAllocation
-	CardsDealt      int
 	Money           MoneyAllocation
 	Ownership       []*TileOwnership
 	ShopAllocation  map[string]map[Shop]int
@@ -80,11 +79,10 @@ func NewState() *State {
 		"PlayerFour":  NewShopMap(),
 	}
 	s := &State{
-		Year:       0,
-		CardsDealt: tileRounds[0],
-		tiles:      tiles,
-		mutex:      &sync.RWMutex{},
-		Ownership:  towns,
+		Year:      0,
+		tiles:     tiles,
+		mutex:     &sync.RWMutex{},
+		Ownership: towns,
 		Money: MoneyAllocation{
 			PlayerOne:   50000,
 			PlayerTwo:   50000,
@@ -105,7 +103,7 @@ func (s *State) EndYear() {
 	if s.Year <= 6 {
 		s.incrementVersion()
 		s.Year += 1
-		s.CardsDealt = tileRounds[s.Year]
+		log.Println("after year=", s.Year)
 		s.dealCards()
 	}
 }
@@ -167,7 +165,7 @@ func arrRemove(a []int, b []int) []int {
 
 func (s *State) markUnrevealed(tiles []int, player string) {
 	for _, v := range tiles {
-		s.Ownership[v].unrevealedPlayer = player
+		s.Ownership[v-1].unrevealedPlayer = player
 	}
 }
 
@@ -209,6 +207,7 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 }
 
 func (s *State) dealCards() {
+	s.Phase = PickTiles
 	var result [][]int
 	tiles := s.tiles
 	num := tileRounds[s.Year-1]
@@ -291,7 +290,6 @@ func (s *State) RegisterPlayer(name string) {
 	}
 	s.Year = 1
 	s.dealCards()
-	s.Phase = PickTiles
 }
 
 func (s *State) SetShopCount(p string, sh Shop, c int) {

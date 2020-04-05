@@ -110,6 +110,11 @@ func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	}
 }
 
+func endYear(w http.ResponseWriter, _ *http.Request) {
+	state.EndYear()
+	state.WriteJSON(w)
+}
+
 func Run() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router := http.NewServeMux()
@@ -121,6 +126,7 @@ func Run() {
 	router.HandleFunc("/registerPlayer", registerPlayer)
 	router.HandleFunc("/addTileCount", addTileCount)
 	router.HandleFunc("/setTile", setTile)
+	router.HandleFunc("/endYear", endYear)
 	router.HandleFunc("/", handler)
 	cors := cors.Default().Handler(router)
 

@@ -43,6 +43,14 @@ let make = () => {
     |> ignore;
   };
 
+  let endYear = (): unit =>
+    Api.endYear()
+    |> Js.Promise.then_(s => {
+         setGameState(_ => GameState(s));
+         Js.Promise.resolve();
+       })
+    |> ignore;
+
   let (number, player) = state;
   switch (gameState) {
   | NoGameState => <div> {ReasonReact.string("loading")} </div>
@@ -70,6 +78,11 @@ let make = () => {
         <AdminShopAllocate
           setGameState=(x => setGameState(_ => GameState(x)))
         />
+        <a
+          className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink"
+          onClick=(_ => endYear())>
+          {ReasonReact.string("End Year!")}
+        </a>
       </div>
       <AdminShop
         state=gs

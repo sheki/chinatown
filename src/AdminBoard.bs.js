@@ -106,7 +106,18 @@ function AdminBoard(Props) {
                                           return /* GameState */[x];
                                         }));
                           })
-                      })), React.createElement(AdminShop$ReasonReactExamples.make, {
+                      }), React.createElement("a", {
+                        className: "f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink",
+                        onClick: (function (param) {
+                            Api$ReasonReactExamples.endYear(/* () */0).then((function (s) {
+                                    Curry._1(setGameState, (function (param) {
+                                            return /* GameState */[s];
+                                          }));
+                                    return Promise.resolve(/* () */0);
+                                  }));
+                            return /* () */0;
+                          })
+                      }, "End Year!")), React.createElement(AdminShop$ReasonReactExamples.make, {
                     state: gs,
                     setGameState: (function (x) {
                         return Curry._1(setGameState, (function (param) {

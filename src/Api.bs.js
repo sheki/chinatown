@@ -97,6 +97,17 @@ function setTile(s, m) {
               }));
 }
 
+function endYear(param) {
+  var payload = { };
+  return fetch("http://localhost:8080/endYear", Fetch.RequestInit.make(/* Post */2, {
+                        "Content-Type": "application/json"
+                      }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
+                  return prim.json();
+                })).then((function (j) {
+                return Promise.resolve(Response$ReasonReactExamples.Decode.state(j));
+              }));
+}
+
 exports.url = url;
 exports.registerPlayer = registerPlayer;
 exports.getState = getState;
@@ -105,4 +116,5 @@ exports.returnTiles = returnTiles;
 exports.addTileCount = addTileCount;
 exports.addMoney = addMoney;
 exports.setTile = setTile;
+exports.endYear = endYear;
 /* Response-ReasonReactExamples Not a pure module */
