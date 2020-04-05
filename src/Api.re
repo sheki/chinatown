@@ -29,6 +29,26 @@ let getState = () =>
     |> then_(j => resolve(Response.Decode.state(j)))
   );
 
+let setOwnership = (player: string, number: int) => {
+  let payload = Js.Dict.empty();
+  Js.Dict.set(payload, "Player", Js.Json.string(player));
+  Js.Dict.set(payload, "TileNumber", Js.Json.number(float_of_int(number)));
+
+  Js.Promise.(
+    Fetch.fetchWithInit(
+      url ++ "setOwnership",
+      Fetch.RequestInit.make(
+        ~method_=Post,
+        ~body=
+          Fetch.BodyInit.make(Js.Json.stringify(Js.Json.object_(payload))),
+        ~headers=Fetch.HeadersInit.make({"Content-Type": "application/json"}),
+        (),
+      ),
+    )
+    |> then_(Fetch.Response.json)
+    |> then_(j => resolve(Response.Decode.state(j)))
+  );
+};
 let returnTiles = (~player: string, ~numbers: list(int)) => {
   let payload = Js.Dict.empty();
   let js_arr = numbers |> List.map(x => float_of_int(x)) |> Array.of_list;

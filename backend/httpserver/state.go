@@ -126,24 +126,21 @@ func (s *State) AddMoney(player string, money int) {
 	}
 }
 
-func (s *State) SetOwnership(tileNumber int, player string, shop Shop) {
+func (s *State) SetOwnership(tileNumber int, player string) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
+	log.Println("ReturnTiles tileNumber=", tileNumber, "player=", player)
 	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
 		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
-			s.Ownership[tileNumber].Player = "PlayerOne"
-			s.Ownership[tileNumber].Shop = shop
+			s.Ownership[tileNumber-1].Player = "PlayerOne"
 		case "PlayerTwo":
-			s.Ownership[tileNumber].Player = "PlayerTwo"
-			s.Ownership[tileNumber].Shop = shop
+			s.Ownership[tileNumber-1].Player = "PlayerTwo"
 		case "PlayerThree":
-			s.Ownership[tileNumber].Player = "PlayerThree"
-			s.Ownership[tileNumber].Shop = shop
+			s.Ownership[tileNumber-1].Player = "PlayerThree"
 		case "PlayerFour":
-			s.Ownership[tileNumber].Player = "PlayerFour"
-			s.Ownership[tileNumber].Shop = shop
+			s.Ownership[tileNumber-1].Player = "PlayerFour"
 		}
 	}
 }

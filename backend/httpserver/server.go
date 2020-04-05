@@ -18,7 +18,6 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 type ownershipRequest struct {
 	Player     string
-	Shop       string
 	TileNumber int
 }
 
@@ -26,7 +25,7 @@ func setOwnership(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	var o ownershipRequest
 	json.NewDecoder(r.Body).Decode(&o)
-	state.SetOwnership(o.TileNumber, o.Player, ShopOfString(o.Shop))
+	state.SetOwnership(o.TileNumber, o.Player)
 	state.WriteJSON(w)
 }
 
