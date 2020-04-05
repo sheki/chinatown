@@ -13,9 +13,9 @@ module TilePane = {
   };
   [@react.component]
   let make = (~state, ~playerName, ~setGameState) => {
-    let num = findPlayerNumber(state, playerName);
+    let num = findPlayerNumber(~state, ~name=playerName);
     let onSubmit = x => {
-      Api.returnTiles(num, x)
+      Api.returnTiles(~player=num, ~numbers=x)
       |> Js.Promise.then_(s => {
            setGameState(s);
            Js.Promise.resolve();
@@ -43,6 +43,7 @@ module TilePane = {
 [@react.component]
 let make = (~state: state, ~playerName: string, ~setGameState) =>
   <div className="flex flex-column items-center pa1">
+    <Year year={state.year} />
     <UserTile state playerName />
     <div className="flex flex-start">
       <City state />

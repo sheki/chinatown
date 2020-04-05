@@ -4,6 +4,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Api$ReasonReactExamples = require("./Api.bs.js");
 var City$ReasonReactExamples = require("./City.bs.js");
+var Year$ReasonReactExamples = require("./Year.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var UserTile$ReasonReactExamples = require("./UserTile.bs.js");
 var HelpBoard$ReasonReactExamples = require("./HelpBoard.bs.js");
@@ -66,7 +67,9 @@ function Board(Props) {
   var setGameState = Props.setGameState;
   return React.createElement("div", {
               className: "flex flex-column items-center pa1"
-            }, React.createElement(UserTile$ReasonReactExamples.make, {
+            }, React.createElement(Year$ReasonReactExamples.make, {
+                  year: state.year
+                }), React.createElement(UserTile$ReasonReactExamples.make, {
                   state: state,
                   playerName: playerName
                 }), React.createElement("div", {
