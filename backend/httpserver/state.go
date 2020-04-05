@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"sync"
+	"time"
 )
 
 type State struct {
@@ -247,6 +248,7 @@ func (s *State) dealShops() {
 }
 
 func pickRandom(slice []int) (int, []int) {
+	rand.Seed(time.Now().UnixNano())
 	s := rand.Intn(len(slice))
 	pick := slice[s]
 	ret := append(slice[:s], slice[s+1:]...)
@@ -254,6 +256,7 @@ func pickRandom(slice []int) (int, []int) {
 }
 
 func pickRandomShop(slice []Shop) (Shop, []Shop) {
+	rand.Seed(time.Now().UnixNano())
 	s := rand.Intn(len(slice))
 	pick := slice[s]
 	ret := append(slice[:s], slice[s+1:]...)
