@@ -57,9 +57,52 @@ function returnTiles(player, numbers) {
               }));
 }
 
+function addTileCount(player, shop, count) {
+  var payload = { };
+  payload["Player"] = player;
+  payload["Shop"] = shop;
+  payload["Count"] = count;
+  return fetch("http://localhost:8080/addTileCount", Fetch.RequestInit.make(/* Post */2, {
+                        "Content-Type": "application/json"
+                      }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
+                  return prim.json();
+                })).then((function (j) {
+                return Promise.resolve(Response$ReasonReactExamples.Decode.state(j));
+              }));
+}
+
+function addMoney(player, m) {
+  var payload = { };
+  payload["Player"] = player;
+  payload["Money"] = m;
+  return fetch("http://localhost:8080/addMoney", Fetch.RequestInit.make(/* Post */2, {
+                        "Content-Type": "application/json"
+                      }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
+                  return prim.json();
+                })).then((function (j) {
+                return Promise.resolve(Response$ReasonReactExamples.Decode.state(j));
+              }));
+}
+
+function setTile(s, m) {
+  var payload = { };
+  payload["Shop"] = s;
+  payload["Number"] = m;
+  return fetch("http://localhost:8080/setTile", Fetch.RequestInit.make(/* Post */2, {
+                        "Content-Type": "application/json"
+                      }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
+                  return prim.json();
+                })).then((function (j) {
+                return Promise.resolve(Response$ReasonReactExamples.Decode.state(j));
+              }));
+}
+
 exports.url = url;
 exports.registerPlayer = registerPlayer;
 exports.getState = getState;
 exports.setOwnership = setOwnership;
 exports.returnTiles = returnTiles;
+exports.addTileCount = addTileCount;
+exports.addMoney = addMoney;
+exports.setTile = setTile;
 /* Response-ReasonReactExamples Not a pure module */

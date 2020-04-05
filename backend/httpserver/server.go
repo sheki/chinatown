@@ -72,6 +72,33 @@ func endTurn(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(state)
 }
 
+type setTileRequest struct {
+	Number int
+	Shop   string
+}
+
+func setTile(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var p setTileRequest
+	json.NewDecoder(r.Body).Decode(&p)
+	state.SetTile(ShopOfString(p.Shop), p.Number)
+	state.WriteJSON(w)
+}
+
+type addTileReq struct {
+	Player string
+	Shop   string
+	Count  int
+}
+
+func addTileCount(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
+	var p addTileReq
+	json.NewDecoder(r.Body).Decode(&p)
+	state.SetShopCount(p.Player, ShopOfString(p.Shop), p.Count)
+	state.WriteJSON(w)
+}
+
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -92,6 +119,8 @@ func Run() {
 	router.HandleFunc("/addMoney", addMoney)
 	router.HandleFunc("/setOwnership", setOwnership)
 	router.HandleFunc("/registerPlayer", registerPlayer)
+	router.HandleFunc("/addTileCount", addTileCount)
+	router.HandleFunc("/setTile", setTile)
 	router.HandleFunc("/", handler)
 	cors := cors.Default().Handler(router)
 

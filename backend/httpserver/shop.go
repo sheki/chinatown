@@ -60,10 +60,10 @@ func ShopOfString(s string) Shop {
 		return Photo
 	case "Seafood":
 		return Seafood
-	case "Tea    ":
+	case "Tea":
 		return Tea
 	default:
-		panic("unknown shop string")
+		panic("unknown shop string " + s)
 	}
 }
 

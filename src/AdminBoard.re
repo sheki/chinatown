@@ -47,8 +47,8 @@ let make = () => {
   switch (gameState) {
   | NoGameState => <div> {ReasonReact.string("loading")} </div>
   | GameState(gs) =>
-    <div className="flex flex-columns pa2">
-      <div>
+    <div className="flex pa2">
+      <div className="flex flex-column w-25">
         <form className="center pa4 br2-ns ba b--black-10" onSubmit>
           <input type_="number" value={string_of_int(number)} onChange />
           <select value=player onChange=onChangeSelect>
@@ -67,7 +67,18 @@ let make = () => {
           </select>
           <input value="Submit" type_="submit" />
         </form>
+        <AdminShopAllocate
+          setGameState=(x => setGameState(_ => GameState(x)))
+        />
       </div>
+      <AdminShop
+        state=gs
+        setGameState=(x => setGameState(_ => GameState(x)))
+      />
+      <AdminMoney
+        state=gs
+        setGameState=(x => setGameState(_ => GameState(x)))
+      />
     </div>
   };
 };

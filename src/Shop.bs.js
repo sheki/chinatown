@@ -96,7 +96,46 @@ function toEmoji(s) {
   }
 }
 
+var allShops = /* :: */[
+  /* Restaurant */0,
+  /* :: */[
+    /* Antique */1,
+    /* :: */[
+      /* Factory */2,
+      /* :: */[
+        /* Dimsum */3,
+        /* :: */[
+          /* Laundry */4,
+          /* :: */[
+            /* Takeout */5,
+            /* :: */[
+              /* Fish */6,
+              /* :: */[
+                /* Florist */7,
+                /* :: */[
+                  /* Jewellery */8,
+                  /* :: */[
+                    /* Photo */9,
+                    /* :: */[
+                      /* Seafood */10,
+                      /* :: */[
+                        /* Tea */11,
+                        /* [] */0
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ]
+  ]
+];
+
 exports.fromString = fromString;
 exports.toString = toString;
 exports.toEmoji = toEmoji;
+exports.allShops = allShops;
 /* No side effect */

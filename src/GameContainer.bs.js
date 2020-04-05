@@ -66,7 +66,7 @@ function GameContainer(Props) {
                           return Promise.resolve(/* () */0);
                         }));
                   return /* () */0;
-                }), 10000);
+                }), 3000);
           return (function (param) {
                     clearInterval(timerId);
                     return /* () */0;

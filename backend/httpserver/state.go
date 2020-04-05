@@ -100,7 +100,7 @@ var tileRounds = []int{6, 5, 5, 5, 5, 5}
 func (s *State) EndYear() {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	if s.Year < 6 {
+	if s.Year <= 6 {
 		s.incrementVersion()
 		s.Year += 1
 		s.CardsDealt = tileRounds[s.Year]
@@ -111,7 +111,7 @@ func (s *State) EndYear() {
 func (s *State) AddMoney(player string, money int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	if s.Year < 6 {
+	if s.Year <= 6 {
 		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
@@ -130,7 +130,7 @@ func (s *State) SetOwnership(tileNumber int, player string) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	log.Println("ReturnTiles tileNumber=", tileNumber, "player=", player)
-	if s.Year < 6 && tileNumber <= 85 && tileNumber > 0 {
+	if s.Year <= 6 && tileNumber <= 85 && tileNumber > 0 {
 		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
@@ -179,7 +179,7 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 	log.Println("ReturnTiles player=", player, "tiles=", tiles)
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
-	if s.Year < 6 {
+	if s.Year <= 6 {
 		s.incrementVersion()
 		switch player {
 		case "PlayerOne":
@@ -292,6 +292,27 @@ func (s *State) RegisterPlayer(name string) {
 	s.Phase = PickTiles
 }
 
+func (s *State) SetShopCount(p string, sh Shop, c int) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	if s.Year > 6 {
+		return
+	}
+
+	count := s.ShopAllocation[p][sh] + c
+	if count >= 0 {
+		s.ShopAllocation[p][sh] = count
+	}
+}
+func (s *State) SetTile(sh Shop, n int) {
+	s.mutex.Lock()
+	defer s.mutex.Unlock()
+	if s.Year > 6 {
+		return
+	}
+	s.Ownership[n-1].Shop = sh
+
+}
 func (s *State) WriteJSON(w io.Writer) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()

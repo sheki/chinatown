@@ -63,3 +63,18 @@ let toEmoji = (s: shop) =>
   | Restaurant => {js|🍟|js}
   | None => {js||js}
   };
+
+let allShops = [
+  Restaurant,
+  Antique,
+  Factory,
+  Dimsum,
+  Laundry,
+  Takeout,
+  Fish,
+  Florist,
+  Jewellery,
+  Photo,
+  Seafood,
+  Tea,
+];

@@ -5,6 +5,9 @@ var React = require("react");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var Api$ReasonReactExamples = require("./Api.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
+var AdminShop$ReasonReactExamples = require("./AdminShop.bs.js");
+var AdminMoney$ReasonReactExamples = require("./AdminMoney.bs.js");
+var AdminShopAllocate$ReasonReactExamples = require("./AdminShopAllocate.bs.js");
 
 function AdminBoard(Props) {
   var match = React.useState((function () {
@@ -73,8 +76,10 @@ function AdminBoard(Props) {
   if (gameState) {
     var gs = gameState[0];
     return React.createElement("div", {
-                className: "flex flex-columns pa2"
-              }, React.createElement("div", undefined, React.createElement("form", {
+                className: "flex pa2"
+              }, React.createElement("div", {
+                    className: "flex flex-column w-25"
+                  }, React.createElement("form", {
                         className: "center pa4 br2-ns ba b--black-10",
                         onSubmit: onSubmit
                       }, React.createElement("input", {
@@ -95,7 +100,27 @@ function AdminBoard(Props) {
                               }, Response$ReasonReactExamples.findPlayerName(gs, "PlayerFour"))), React.createElement("input", {
                             type: "submit",
                             value: "Submit"
-                          }))));
+                          })), React.createElement(AdminShopAllocate$ReasonReactExamples.make, {
+                        setGameState: (function (x) {
+                            return Curry._1(setGameState, (function (param) {
+                                          return /* GameState */[x];
+                                        }));
+                          })
+                      })), React.createElement(AdminShop$ReasonReactExamples.make, {
+                    state: gs,
+                    setGameState: (function (x) {
+                        return Curry._1(setGameState, (function (param) {
+                                      return /* GameState */[x];
+                                    }));
+                      })
+                  }), React.createElement(AdminMoney$ReasonReactExamples.make, {
+                    state: gs,
+                    setGameState: (function (x) {
+                        return Curry._1(setGameState, (function (param) {
+                                      return /* GameState */[x];
+                                    }));
+                      })
+                  }));
   } else {
     return React.createElement("div", undefined, "loading");
   }
