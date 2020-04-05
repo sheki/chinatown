@@ -6,7 +6,7 @@ var CityRow$ReasonReactExamples = require("./CityRow.bs.js");
 function ZoneTwo(Props) {
   var state = Props.state;
   return React.createElement("div", {
-              className: "flex flex-column"
+              className: "flex flex-column br bw1"
             }, React.createElement(CityRow$ReasonReactExamples.make, {
                   numbers: /* :: */[
                     /* Number */[16],
