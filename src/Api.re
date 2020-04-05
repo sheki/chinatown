@@ -1,4 +1,4 @@
-let url = "https://55e163b6.ngrok.io/";
+let url = " http://c8993527.ngrok.io/";
 
 let registerPlayer = (~name) => {
   let payload = Js.Dict.empty();
