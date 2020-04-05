@@ -23,6 +23,12 @@ type playerNames = {
   playerFour: string,
 };
 
+type money = {
+  mplayerOne: int, 
+  mplayerTwo: int,
+  mplayerThree: int,
+  mplayerFour: int,
+};
 
 type tileOwnership = {
 	player: string,
@@ -38,6 +44,7 @@ type state = {
   tiles: tilesAllocation,
   ownership: array(tileOwnership),
   shopTiles: StringMap.t(ShopMap.t(int)),
+  money: money,
 };
 
 
@@ -56,7 +63,16 @@ let findPlayerNumber = (~state as s, ~name as n) => {
     "";
   };
 };
-
+let getPlayerMOney = (~state , ~playerName as n) => {
+	let number = findPlayerNumber(~state,~name=n);
+switch(number)  {
+		| "PlayerOne" => state.money.mplayerOne
+		| "PlayerTwo" => state.money.mplayerTwo
+		| "PlayerThree" => state.money.mplayerThree
+		| "PlayerFour" => state.money.mplayerFour
+		| _ => 0
+	};
+}
 let findPlayerName = (state, number) => {
 	let players = state.players;
 	switch(number)  {
@@ -90,6 +106,14 @@ module Decode = {
       tplayerThree: json |> optional(field("PlayerThree", list(int))),
       tplayerFour: json |> optional(field("PlayerFour", list(int))),
     };
+let money = json =>
+    Json.Decode.{
+      mplayerOne: json |> field("PlayerOne", int),
+     mplayerTwo: json |> field("PlayerTwo", int),
+     mplayerThree: json |> field("PlayerThree", int),
+     mplayerFour: json |> field("PlayerFour", int),
+    };
+
 
   let decodeShopMap = (json) : ShopMap.t(int) => {
 	 let d = Json.Decode.dict(Json.Decode.int,json);
@@ -126,5 +150,6 @@ module Decode = {
       tiles: json |> field("TilesAllocation", tilesAllocation),
       shopTiles: json |> field("ShopAllocation", yakShave),
       ownership: json |> field("Ownership", array(tileOwnership)),
+      money: json |> field("Money", money),
     };
 };

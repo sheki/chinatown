@@ -7,15 +7,22 @@ var Players$ReasonReactExamples = require("./Players.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 var ShopTileDisplay$ReasonReactExamples = require("./ShopTileDisplay.bs.js");
 
+var jsFormat = (function (number) {
+   return new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(number);
+ });
+
 function UserTile$Card(Props) {
   var state = Props.state;
   var playerNumber = Props.playerNumber;
+  var currentPlayerName = Props.currentPlayerName;
   var name = Response$ReasonReactExamples.findPlayerName(state, playerNumber);
   var src = "https://robohash.org/" + (name + ".png?size=200x200&set=set5");
   var color = Players$ReasonReactExamples.toHTMLColor(Players$ReasonReactExamples.colorFromPlayer(playerNumber));
   var style = {
     color: color
   };
+  var cashStr = jsFormat(Response$ReasonReactExamples.getPlayerMOney(state, currentPlayerName));
+  console.log(currentPlayerName, name, cashStr);
   return React.createElement("div", {
               className: "flex ma1"
             }, React.createElement("div", {
@@ -25,7 +32,9 @@ function UserTile$Card(Props) {
                       src: src
                     }), React.createElement("h2", {
                       className: "f3"
-                    }, name)), React.createElement(ShopTileDisplay$ReasonReactExamples.make, {
+                    }, name), currentPlayerName === name ? React.createElement("div", {
+                        className: "f2"
+                      }, cashStr) : React.createElement("div", undefined)), React.createElement(ShopTileDisplay$ReasonReactExamples.make, {
                   state: state,
                   playerNumber: playerNumber
                 }));
@@ -51,12 +60,14 @@ var allPlayerNumbers = /* :: */[
 
 function UserTile(Props) {
   var state = Props.state;
+  var playerName = Props.playerName;
   return React.createElement("div", {
               className: "flex flex items-center pa2"
             }, $$Array.of_list(List.map((function (x) {
                         return React.createElement(UserTile$Card, {
                                     state: state,
                                     playerNumber: x,
+                                    currentPlayerName: playerName,
                                     key: x
                                   });
                       }), allPlayerNumbers)));
@@ -64,6 +75,7 @@ function UserTile(Props) {
 
 var make = UserTile;
 
+exports.jsFormat = jsFormat;
 exports.Card = Card;
 exports.allPlayerNumbers = allPlayerNumbers;
 exports.make = make;

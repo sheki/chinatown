@@ -35,6 +35,22 @@ function findPlayerNumber(s, n) {
   }
 }
 
+function getPlayerMOney(state, n) {
+  var number = findPlayerNumber(state, n);
+  switch (number) {
+    case "PlayerFour" :
+        return state.money.mplayerFour;
+    case "PlayerOne" :
+        return state.money.mplayerOne;
+    case "PlayerThree" :
+        return state.money.mplayerThree;
+    case "PlayerTwo" :
+        return state.money.mplayerTwo;
+    default:
+      return 0;
+  }
+}
+
 function findPlayerName(state, number) {
   var players = state.players;
   switch (number) {
@@ -91,6 +107,15 @@ function tilesAllocation(json) {
         };
 }
 
+function money(json) {
+  return {
+          mplayerOne: Json_decode.field("PlayerOne", Json_decode.$$int, json),
+          mplayerTwo: Json_decode.field("PlayerTwo", Json_decode.$$int, json),
+          mplayerThree: Json_decode.field("PlayerThree", Json_decode.$$int, json),
+          mplayerFour: Json_decode.field("PlayerFour", Json_decode.$$int, json)
+        };
+}
+
 function decodeShopMap(json) {
   var d = Json_decode.dict(Json_decode.$$int, json);
   return $$Array.fold_left((function (m, entry) {
@@ -124,7 +149,8 @@ function state(json) {
           ownership: Json_decode.field("Ownership", (function (param) {
                   return Json_decode.array(tileOwnership, param);
                 }), json),
-          shopTiles: Json_decode.field("ShopAllocation", yakShave, json)
+          shopTiles: Json_decode.field("ShopAllocation", yakShave, json),
+          money: Json_decode.field("Money", money, json)
         };
 }
 
@@ -132,6 +158,7 @@ var Decode = {
   dictToStringMap: dictToStringMap,
   playerNames: playerNames,
   tilesAllocation: tilesAllocation,
+  money: money,
   decodeShopMap: decodeShopMap,
   yakShave: yakShave,
   decodeShop: decodeShop,
@@ -142,6 +169,7 @@ var Decode = {
 exports.StringMap = StringMap;
 exports.ShopMap = ShopMap;
 exports.findPlayerNumber = findPlayerNumber;
+exports.getPlayerMOney = getPlayerMOney;
 exports.findPlayerName = findPlayerName;
 exports.Decode = Decode;
 /* StringMap Not a pure module */

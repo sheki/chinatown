@@ -68,6 +68,7 @@ func (t *TilesAllocation) AllReturned() bool {
 func NewState() *State {
 	var tiles []int
 	var towns []*TileOwnership
+	rand.Seed(time.Now().UnixNano())
 	for i := 1; i <= 85; i++ {
 		tiles = append(tiles, i)
 		towns = append(towns, &TileOwnership{i, "", "", ""})
@@ -248,7 +249,6 @@ func (s *State) dealShops() {
 }
 
 func pickRandom(slice []int) (int, []int) {
-	rand.Seed(time.Now().UnixNano())
 	s := rand.Intn(len(slice))
 	pick := slice[s]
 	ret := append(slice[:s], slice[s+1:]...)
@@ -256,7 +256,6 @@ func pickRandom(slice []int) (int, []int) {
 }
 
 func pickRandomShop(slice []Shop) (Shop, []Shop) {
-	rand.Seed(time.Now().UnixNano())
 	s := rand.Intn(len(slice))
 	pick := slice[s]
 	ret := append(slice[:s], slice[s+1:]...)
