@@ -102,6 +102,7 @@ func addTileCount(w http.ResponseWriter, r *http.Request) {
 
 func resetHandler(w http.ResponseWriter, r *http.Request) {
 	state = NewState()
+	state.WriteJSON(w)
 }
 
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
