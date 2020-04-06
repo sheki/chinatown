@@ -6,12 +6,12 @@ var Fetch = require("bs-fetch/src/Fetch.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
 
-var url = "https://55e163b6.ngrok.io/";
+var url = "https://chinabackend.onrender.com/";
 
 function registerPlayer(name) {
   var payload = { };
   payload["name"] = name;
-  return fetch("https://55e163b6.ngrok.io/registerPlayer", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/registerPlayer", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -21,7 +21,7 @@ function registerPlayer(name) {
 }
 
 function getState(param) {
-  return fetch("https://55e163b6.ngrok.io/state", Fetch.RequestInit.make(/* Get */0, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
+  return fetch("https://chinabackend.onrender.com/state", Fetch.RequestInit.make(/* Get */0, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
                 })).then((function (j) {
                 return Promise.resolve(Response$ReasonReactExamples.Decode.state(j));
@@ -32,7 +32,7 @@ function setOwnership(player, number) {
   var payload = { };
   payload["Player"] = player;
   payload["TileNumber"] = number;
-  return fetch("https://55e163b6.ngrok.io/setOwnership", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/setOwnership", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -48,7 +48,7 @@ function returnTiles(player, numbers) {
             }), numbers));
   payload["Player"] = player;
   payload["Tiles"] = js_arr;
-  return fetch("https://55e163b6.ngrok.io/returnTile", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/returnTile", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -62,7 +62,7 @@ function addTileCount(player, shop, count) {
   payload["Player"] = player;
   payload["Shop"] = shop;
   payload["Count"] = count;
-  return fetch("https://55e163b6.ngrok.io/addTileCount", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/addTileCount", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -75,7 +75,7 @@ function addMoney(player, m) {
   var payload = { };
   payload["Player"] = player;
   payload["Money"] = m;
-  return fetch("https://55e163b6.ngrok.io/addMoney", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/addMoney", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -88,7 +88,7 @@ function setTile(s, m) {
   var payload = { };
   payload["Shop"] = s;
   payload["Number"] = m;
-  return fetch("https://55e163b6.ngrok.io/setTile", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/setTile", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();
@@ -99,7 +99,7 @@ function setTile(s, m) {
 
 function endYear(param) {
   var payload = { };
-  return fetch("https://55e163b6.ngrok.io/endYear", Fetch.RequestInit.make(/* Post */2, {
+  return fetch("https://chinabackend.onrender.com/endYear", Fetch.RequestInit.make(/* Post */2, {
                         "Content-Type": "application/json"
                       }, Caml_option.some(JSON.stringify(payload)), undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined)(/* () */0)).then((function (prim) {
                   return prim.json();

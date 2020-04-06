@@ -1,4 +1,4 @@
-let url = " http://c8993527.ngrok.io/";
+let url = "https://chinabackend.onrender.com/";
 
 let registerPlayer = (~name) => {
   let payload = Js.Dict.empty();
