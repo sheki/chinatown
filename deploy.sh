@@ -2,7 +2,7 @@
 mkdir -p build
 rm -rf build
 mkdir build
-parcel build index.html -d build --public-url ./chinatown
+NODE_ENV=production parcel build index.html admin.html -d build --public-url ./chinatown
 pushd ~/parse-blog
 rm -rf static/chinatown
 popd
