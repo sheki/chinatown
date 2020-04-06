@@ -2,7 +2,8 @@
 mkdir -p build
 rm -rf build
 mkdir build
-NODE_ENV=production parcel build index.html -d build --public-url //sheki.in/chinatown
+export NODE_ENV=production
+parcel build index.html admin.html -d build --public-url https://sheki.in/chinatown
 pushd ~/parse-blog
 rm -rf static/chinatown
 popd
