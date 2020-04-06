@@ -43,7 +43,7 @@ let make = () => {
   let setGameStateGlobal = xs => setGameState(_ => GameState(xs));
 
   React.useEffect0(() => {
-    let timerId = Js.Global.setInterval(() => refreshState(), 7000);
+    let timerId = Js.Global.setInterval(() => refreshState(), 5000);
     Some(() => Js.Global.clearInterval(timerId));
   });
 
