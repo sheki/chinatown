@@ -1,7 +1,14 @@
 package main
 
-import "chinatown.sheki/server/httpserver"
+import (
+	"flag"
+
+	"chinatown.sheki/server/httpserver"
+)
+
+var port = flag.Int("port", 8080, "port")
 
 func main() {
-	httpserver.Run()
+	flag.Parse()
+	httpserver.Run(*port)
 }

@@ -2,6 +2,7 @@ package httpserver
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -115,7 +116,7 @@ func endYear(w http.ResponseWriter, _ *http.Request) {
 	state.WriteJSON(w)
 }
 
-func Run() {
+func Run(port int) {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router := http.NewServeMux()
 	router.HandleFunc("/state", handler)
@@ -131,7 +132,7 @@ func Run() {
 	cors := cors.Default().Handler(router)
 
 	server := &http.Server{
-		Addr:         ":8080",
+		Addr:         fmt.Sprintf(":%d", port),
 		Handler:      logging(logger)(cors),
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
