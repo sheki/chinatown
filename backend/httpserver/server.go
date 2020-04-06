@@ -100,6 +100,10 @@ func addTileCount(w http.ResponseWriter, r *http.Request) {
 	state.WriteJSON(w)
 }
 
+func resetHandler(w http.ResponseWriter, r *http.Request) {
+	state = NewState()
+}
+
 func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -129,6 +133,7 @@ func Run(port int) {
 	router.HandleFunc("/setTile", setTile)
 	router.HandleFunc("/endYear", endYear)
 	router.HandleFunc("/", handler)
+	router.HandleFunc("/reset", resetHandler)
 	cors := cors.Default().Handler(router)
 
 	server := &http.Server{
