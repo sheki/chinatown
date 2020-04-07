@@ -12,19 +12,7 @@ let make = (~state, ~setGameState) => {
        })
     |> ignore;
 
-  let monies = [
-    10,
-    000,
-    (-10),
-    000,
-    50,
-    000,
-    (-50),
-    000,
-    100,
-    000 - 100,
-    000,
-  ];
+  let monies = [10000, (-10000), 50000, (-50000), 100000, (-100000)];
 
   let buttons = player => {
     let x =

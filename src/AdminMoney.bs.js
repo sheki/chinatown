@@ -10,41 +10,6 @@ var Response$ReasonReactExamples = require("./Response.bs.js");
 function AdminMoney(Props) {
   var state = Props.state;
   var setGameState = Props.setGameState;
-  var monies_001 = /* :: */[
-    0,
-    /* :: */[
-      -10,
-      /* :: */[
-        0,
-        /* :: */[
-          50,
-          /* :: */[
-            0,
-            /* :: */[
-              -50,
-              /* :: */[
-                0,
-                /* :: */[
-                  100,
-                  /* :: */[
-                    -100,
-                    /* :: */[
-                      0,
-                      /* [] */0
-                    ]
-                  ]
-                ]
-              ]
-            ]
-          ]
-        ]
-      ]
-    ]
-  ];
-  var monies = /* :: */[
-    10,
-    monies_001
-  ];
   var buttons = function (player) {
     var x = $$Array.of_list(List.map((function (m) {
                 var color = m > 0 ? "bg-dark-blue" : "bg-hot-pink";
@@ -61,7 +26,25 @@ function AdminMoney(Props) {
                                 return /* () */0;
                               })
                           }, String(m));
-              }), monies));
+              }), /* :: */[
+              10000,
+              /* :: */[
+                -10000,
+                /* :: */[
+                  50000,
+                  /* :: */[
+                    -50000,
+                    /* :: */[
+                      100000,
+                      /* :: */[
+                        -100000,
+                        /* [] */0
+                      ]
+                    ]
+                  ]
+                ]
+              ]
+            ]));
     return React.createElement("div", undefined, x);
   };
   return React.createElement("table", {
