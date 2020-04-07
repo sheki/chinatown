@@ -2,6 +2,8 @@
 
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
+var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Api$ReasonReactExamples = require("./Api.bs.js");
 var Board$ReasonReactExamples = require("./Board.bs.js");
 var Response$ReasonReactExamples = require("./Response.bs.js");
@@ -42,9 +44,14 @@ function GameContainer(Props) {
         }));
   var setPlayerNumber = match[1];
   var match$1 = React.useState((function () {
-          return "";
+          return Belt_Option.getWithDefault(Caml_option.null_to_opt(localStorage.getItem("jwt")), "");
         }));
   var setPlayerName = match$1[1];
+  var playerName = match$1[0];
+  React.useEffect((function () {
+          localStorage.setItem("name", playerName);
+          return ;
+        }), [playerName]);
   var match$2 = React.useState((function () {
           return /* NoGameState */0;
         }));
@@ -92,7 +99,7 @@ function GameContainer(Props) {
                 onNameSubmit: onNameSubmit
               });
   } else if (gameState) {
-    return gameTime(gameState[0], match$1[0], setGameStateGlobal);
+    return gameTime(gameState[0], playerName, setGameStateGlobal);
   } else {
     return React.createElement(AddPlayers$ReasonReactExamples.make, {
                 onNameSubmit: onNameSubmit

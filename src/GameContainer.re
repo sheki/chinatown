@@ -23,8 +23,23 @@ let gameTime = (~gs: state, ~playerName: string, ~setGameState) =>
 
 [@react.component]
 let make = () => {
+  let getNameFromStorage = () =>
+    Belt.Option.getWithDefault(
+      Dom.Storage.(localStorage |> getItem("jwt")),
+      "",
+    );
+
   let (playerNumber, setPlayerNumber) = React.useState(() => "");
-  let (playerName, setPlayerName) = React.useState(() => "");
+  let (playerName, setPlayerName) =
+    React.useState(() => getNameFromStorage());
+
+  React.useEffect1(
+    () => {
+      Dom.Storage.(localStorage |> setItem("name", playerName));
+      None;
+    },
+    [|playerName|],
+  );
 
   let (gameState, setGameState) = React.useState(() => NoGameState);
 
@@ -51,7 +66,7 @@ let make = () => {
     Api.registerPlayer(n)
     |> Js.Promise.then_(s => {
          setPlayerName(_ => n);
-         setPlayerNumber(_ => findPlayerNumber(s, n));
+         setPlayerNumber(_ => findPlayerNumber(~state=s, ~name=n));
          setGameState(_ => GameState(s));
          Js.Promise.resolve();
        })
