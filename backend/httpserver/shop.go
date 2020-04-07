@@ -44,19 +44,19 @@ func ShopOfString(s string) Shop {
 		return Antique
 	case "Factory":
 		return Factory
-	case "Dimsum ":
+	case "Dimsum":
 		return Dimsum
 	case "Laundry":
 		return Laundry
 	case "Takeout":
 		return Takeout
-	case "Fish   ":
+	case "Fish":
 		return Fish
 	case "Florist":
 		return Florist
 	case "Jewellery":
 		return Jewellery
-	case "Photo  ":
+	case "Photo":
 		return Photo
 	case "Seafood":
 		return Seafood
