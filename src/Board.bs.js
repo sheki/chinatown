@@ -1,7 +1,9 @@
 'use strict';
 
+var List = require("bs-platform/lib/js/list.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Caml_primitive = require("bs-platform/lib/js/caml_primitive.js");
 var Api$ReasonReactExamples = require("./Api.bs.js");
 var City$ReasonReactExamples = require("./City.bs.js");
 var Year$ReasonReactExamples = require("./Year.bs.js");
@@ -43,7 +45,7 @@ function Board$TilePane(Props) {
     var myTiles = tilesAllocatedToUser(state, num);
     if (myTiles !== undefined) {
       return React.createElement(CardPicker$ReasonReactExamples.make, {
-                  numbers: myTiles,
+                  numbers: List.sort(Caml_primitive.caml_int_compare, myTiles),
                   onSubmit: onSubmit
                 });
     } else {

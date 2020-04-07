@@ -1,7 +1,7 @@
 open Response;
 
 module TilePane = {
-  let tilesAllocatedToUser = (~state, ~playerName) => {
+  let tilesAllocatedToUser = (state, playerName) => {
     let tiles = state.tiles;
     switch (playerName) {
     | "PlayerOne" => tiles.tplayerOne
@@ -30,7 +30,8 @@ module TilePane = {
     } else {
       let myTiles = tilesAllocatedToUser(state, num);
       switch (myTiles) {
-      | Some(tiles) => <CardPicker numbers=tiles onSubmit />
+      | Some(tiles) =>
+        <CardPicker numbers={List.sort(compare, tiles)} onSubmit />
       | None =>
         <div className="fl w-25 pa1">
           {ReasonReact.string("Waiting on others")}
