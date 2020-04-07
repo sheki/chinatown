@@ -5,6 +5,7 @@ var CityRow$ReasonReactExamples = require("./CityRow.bs.js");
 
 function ZoneOne(Props) {
   var state = Props.state;
+  var myTiles = Props.myTiles;
   return React.createElement("div", {
               className: "flex flex-column br bw1"
             }, React.createElement(CityRow$ReasonReactExamples.make, {
@@ -21,7 +22,8 @@ function ZoneOne(Props) {
                       ]
                     ]
                   ],
-                  state: state
+                  state: state,
+                  myTiles: myTiles
                 }), React.createElement(CityRow$ReasonReactExamples.make, {
                   numbers: /* :: */[
                     /* Blank */0,
@@ -36,7 +38,8 @@ function ZoneOne(Props) {
                       ]
                     ]
                   ],
-                  state: state
+                  state: state,
+                  myTiles: myTiles
                 }), React.createElement(CityRow$ReasonReactExamples.make, {
                   numbers: /* :: */[
                     /* Number */[6],
@@ -51,7 +54,8 @@ function ZoneOne(Props) {
                       ]
                     ]
                   ],
-                  state: state
+                  state: state,
+                  myTiles: myTiles
                 }), React.createElement(CityRow$ReasonReactExamples.make, {
                   numbers: /* :: */[
                     /* Number */[10],
@@ -66,7 +70,8 @@ function ZoneOne(Props) {
                       ]
                     ]
                   ],
-                  state: state
+                  state: state,
+                  myTiles: myTiles
                 }), React.createElement(CityRow$ReasonReactExamples.make, {
                   numbers: /* :: */[
                     /* Number */[13],
@@ -81,7 +86,8 @@ function ZoneOne(Props) {
                       ]
                     ]
                   ],
-                  state: state
+                  state: state,
+                  myTiles: myTiles
                 }));
 }
 

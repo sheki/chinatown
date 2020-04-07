@@ -12,27 +12,11 @@ var UserTile$ReasonReactExamples = require("./UserTile.bs.js");
 var HelpBoard$ReasonReactExamples = require("./HelpBoard.bs.js");
 var CardPicker$ReasonReactExamples = require("./CardPicker.bs.js");
 
-function tilesAllocatedToUser(state, playerName) {
-  var tiles = state.tiles;
-  switch (playerName) {
-    case "PlayerFour" :
-        return tiles.tplayerFour;
-    case "PlayerOne" :
-        return tiles.tplayerOne;
-    case "PlayerThree" :
-        return tiles.tplayerThree;
-    case "PlayerTwo" :
-        return tiles.tplayerTwo;
-    default:
-      return ;
-  }
-}
-
 function Board$TilePane(Props) {
   var state = Props.state;
-  var playerName = Props.playerName;
   var setGameState = Props.setGameState;
-  var num = Response$ReasonReactExamples.findPlayerNumber(state, playerName);
+  var myTiles = Props.myTiles;
+  var num = Props.num;
   var onSubmit = function (x) {
     Api$ReasonReactExamples.returnTiles(num, x).then((function (s) {
             Curry._1(setGameState, s);
@@ -42,7 +26,6 @@ function Board$TilePane(Props) {
   };
   var displayUserPicker = state.phase === "PickTiles";
   if (displayUserPicker) {
-    var myTiles = tilesAllocatedToUser(state, num);
     if (myTiles !== undefined) {
       return React.createElement(CardPicker$ReasonReactExamples.make, {
                   numbers: List.sort(Caml_primitive.caml_int_compare, myTiles),
@@ -59,7 +42,6 @@ function Board$TilePane(Props) {
 }
 
 var TilePane = {
-  tilesAllocatedToUser: tilesAllocatedToUser,
   make: Board$TilePane
 };
 
@@ -67,6 +49,23 @@ function Board(Props) {
   var state = Props.state;
   var playerName = Props.playerName;
   var setGameState = Props.setGameState;
+  var num = Response$ReasonReactExamples.findPlayerNumber(state, playerName);
+  var tilesAllocatedToUser = function (state, playerName) {
+    var tiles = state.tiles;
+    switch (playerName) {
+      case "PlayerFour" :
+          return tiles.tplayerFour;
+      case "PlayerOne" :
+          return tiles.tplayerOne;
+      case "PlayerThree" :
+          return tiles.tplayerThree;
+      case "PlayerTwo" :
+          return tiles.tplayerTwo;
+      default:
+        return ;
+    }
+  };
+  var myTiles = tilesAllocatedToUser(state, num);
   return React.createElement("div", {
               className: "flex flex-column items-center pa1"
             }, React.createElement(Year$ReasonReactExamples.make, {
@@ -77,11 +76,13 @@ function Board(Props) {
                 }), React.createElement("div", {
                   className: "flex flex-start"
                 }, React.createElement(City$ReasonReactExamples.make, {
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     }), React.createElement(Board$TilePane, {
                       state: state,
-                      playerName: playerName,
-                      setGameState: setGameState
+                      setGameState: setGameState,
+                      myTiles: myTiles,
+                      num: num
                     })), React.createElement(HelpBoard$ReasonReactExamples.make, { }));
 }
 

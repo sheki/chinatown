@@ -11,16 +11,21 @@ var BlankTile$ReasonReactExamples = require("./BlankTile.bs.js");
 function CityRow(Props) {
   var numbers = Props.numbers;
   var state = Props.state;
+  var myTiles = Props.myTiles;
   var ren = function (y) {
     if (y) {
       var x = y[0];
       var o = Caml_array.caml_array_get(state.ownership, x - 1 | 0);
       var color = Players$ReasonReactExamples.colorFromPlayer(o.player);
       var shop = o.shop;
+      var pink = myTiles !== undefined ? List.exists((function (y) {
+                return x === y;
+              }), myTiles) : false;
       return React.createElement(Tile$ReasonReactExamples.make, {
                   id: String(x),
                   color: color,
                   shop: shop,
+                  pink: pink,
                   key: String(x)
                 });
     } else {

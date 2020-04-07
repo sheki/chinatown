@@ -1,19 +1,8 @@
 open Response;
 
 module TilePane = {
-  let tilesAllocatedToUser = (state, playerName) => {
-    let tiles = state.tiles;
-    switch (playerName) {
-    | "PlayerOne" => tiles.tplayerOne
-    | "PlayerTwo" => tiles.tplayerTwo
-    | "PlayerThree" => tiles.tplayerThree
-    | "PlayerFour" => tiles.tplayerFour
-    | _ => None
-    };
-  };
   [@react.component]
-  let make = (~state, ~playerName, ~setGameState) => {
-    let num = findPlayerNumber(~state, ~name=playerName);
+  let make = (~state, ~setGameState, ~myTiles, ~num) => {
     let onSubmit = x => {
       Api.returnTiles(~player=num, ~numbers=x)
       |> Js.Promise.then_(s => {
@@ -28,7 +17,6 @@ module TilePane = {
     if (!displayUserPicker) {
       <div />;
     } else {
-      let myTiles = tilesAllocatedToUser(state, num);
       switch (myTiles) {
       | Some(tiles) =>
         <CardPicker numbers={List.sort(compare, tiles)} onSubmit />
@@ -42,13 +30,28 @@ module TilePane = {
 };
 
 [@react.component]
-let make = (~state: state, ~playerName: string, ~setGameState) =>
+let make = (~state: state, ~playerName: string, ~setGameState) => {
+  let num = findPlayerNumber(~state, ~name=playerName);
+  let tilesAllocatedToUser = (state, playerName) => {
+    let tiles = state.tiles;
+    switch (playerName) {
+    | "PlayerOne" => tiles.tplayerOne
+    | "PlayerTwo" => tiles.tplayerTwo
+    | "PlayerThree" => tiles.tplayerThree
+    | "PlayerFour" => tiles.tplayerFour
+    | _ => None
+    };
+  };
+
+  let myTiles = tilesAllocatedToUser(state, num);
+
   <div className="flex flex-column items-center pa1">
     <Year year={state.year} />
     <UserTile state playerName />
     <div className="flex flex-start">
-      <City state />
-      <TilePane state playerName setGameState />
+      <City state myTiles />
+      <TilePane state setGameState num myTiles />
     </div>
     <HelpBoard />
   </div>;
+};

@@ -5,6 +5,7 @@ var CityRow$ReasonReactExamples = require("./CityRow.bs.js");
 
 function ZoneFive(Props) {
   var state = Props.state;
+  var myTiles = Props.myTiles;
   return React.createElement("div", {
               className: "flex flex-column br bw1"
             }, React.createElement("div", {
@@ -20,7 +21,8 @@ function ZoneFive(Props) {
                           ]
                         ]
                       ],
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     }), React.createElement(CityRow$ReasonReactExamples.make, {
                       numbers: /* :: */[
                         /* Number */[61],
@@ -32,7 +34,8 @@ function ZoneFive(Props) {
                           ]
                         ]
                       ],
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     }), React.createElement(CityRow$ReasonReactExamples.make, {
                       numbers: /* :: */[
                         /* Number */[63],
@@ -44,7 +47,8 @@ function ZoneFive(Props) {
                           ]
                         ]
                       ],
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     }), React.createElement(CityRow$ReasonReactExamples.make, {
                       numbers: /* :: */[
                         /* Number */[66],
@@ -56,7 +60,8 @@ function ZoneFive(Props) {
                           ]
                         ]
                       ],
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     }), React.createElement(CityRow$ReasonReactExamples.make, {
                       numbers: /* :: */[
                         /* Blank */0,
@@ -68,7 +73,8 @@ function ZoneFive(Props) {
                           ]
                         ]
                       ],
-                      state: state
+                      state: state,
+                      myTiles: myTiles
                     })));
 }
 
