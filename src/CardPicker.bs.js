@@ -4,6 +4,7 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Caml_primitive = require("bs-platform/lib/js/caml_primitive.js");
 
 function CardPicker$NumberCard(Props) {
   var number = Props.number;
@@ -48,10 +49,10 @@ function CardPicker(Props) {
   var setClicked = match$1[1];
   var clicked = match$1[0];
   var onClick = function (picked) {
-    var newClicked;
+    var tmp;
     if (clicked) {
       var match = clicked[1];
-      newClicked = match ? (
+      tmp = match ? (
           match[1] ? /* [] */0 : /* :: */[
               match[0],
               /* :: */[
@@ -67,11 +68,12 @@ function CardPicker(Props) {
           ]
         ];
     } else {
-      newClicked = /* :: */[
+      tmp = /* :: */[
         picked,
         /* [] */0
       ];
     }
+    var newClicked = List.sort_uniq(Caml_primitive.caml_int_compare, tmp);
     var newState = List.map((function (n) {
             return /* tuple */[
                     n,

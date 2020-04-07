@@ -32,13 +32,15 @@ let make = (~numbers, ~onSubmit) => {
 
   let onClick = (picked: int) => {
     let newClicked =
-      switch (clicked) {
-      | [] => [picked]
-      | [a] => [a, picked]
-      | [_, b] => [b, picked]
-      | _ => []
-      };
-    ();
+      (
+        switch (clicked) {
+        | [] => [picked]
+        | [a] => [a, picked]
+        | [_, b] => [b, picked]
+        | _ => []
+        }
+      )
+      |> List.sort_uniq(compare);
 
     let newState: list((int, bool)) =
       numbers |> List.map(n => (n, List.exists(x => x == n, newClicked)));
