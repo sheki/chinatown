@@ -310,9 +310,14 @@ func (s *State) SetTile(sh Shop, n int) {
 	if s.Year > 6 {
 		return
 	}
+	player := s.Ownership[n-1].Player
+	shops := s.ShopAllocation[player]
+	count := shops[sh] - 1
+	shops[sh] = count
+	s.ShopAllocation[player] = shops
 	s.Ownership[n-1].Shop = sh
-
 }
+
 func (s *State) WriteJSON(w io.Writer) {
 	s.mutex.RLock()
 	defer s.mutex.RUnlock()
