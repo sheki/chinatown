@@ -22,7 +22,6 @@ function UserTile$Card(Props) {
     color: color
   };
   var cashStr = jsFormat(Response$ReasonReactExamples.getPlayerMOney(state, currentPlayerName));
-  console.log(currentPlayerName, name, cashStr);
   return React.createElement("div", {
               className: "flex ma1"
             }, React.createElement("div", {

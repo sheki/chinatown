@@ -21,8 +21,6 @@ module Card = {
       Response.getPlayerMOney(~state, ~playerName=currentPlayerName)
       |> jsFormat;
 
-    Js.log3(currentPlayerName, name, cashStr);
-
     <div className="flex ma1">
       <div style className="flex w4 flex-column items-center pa3 ma1">
         <img src />

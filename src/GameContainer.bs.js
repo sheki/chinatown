@@ -18,9 +18,16 @@ function shouldUpdateGameState(s, gs) {
   }
 }
 
-function gameTime(gs, playerName, setGameState) {
+function gameTime(gs, playerName, setGameState, onNameSubmit) {
+  var playerNumber = Response$ReasonReactExamples.findPlayerNumber(gs, playerName);
   if (gs.year === 0) {
-    return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
+    if (playerNumber === "") {
+      return React.createElement(AddPlayers$ReasonReactExamples.make, {
+                  onNameSubmit: onNameSubmit
+                });
+    } else {
+      return React.createElement(WaitingOnOthers$ReasonReactExamples.make, { });
+    }
   } else {
     var match = gs.phase;
     switch (match) {
@@ -40,23 +47,19 @@ function gameTime(gs, playerName, setGameState) {
 
 function GameContainer(Props) {
   var match = React.useState((function () {
-          return "";
+          return Belt_Option.getWithDefault(Caml_option.null_to_opt(localStorage.getItem("name")), "");
         }));
-  var setPlayerNumber = match[1];
-  var match$1 = React.useState((function () {
-          return Belt_Option.getWithDefault(Caml_option.null_to_opt(localStorage.getItem("jwt")), "");
-        }));
-  var setPlayerName = match$1[1];
-  var playerName = match$1[0];
+  var setPlayerName = match[1];
+  var playerName = match[0];
   React.useEffect((function () {
           localStorage.setItem("name", playerName);
           return ;
         }), [playerName]);
-  var match$2 = React.useState((function () {
+  var match$1 = React.useState((function () {
           return /* NoGameState */0;
         }));
-  var setGameState = match$2[1];
-  var gameState = match$2[0];
+  var setGameState = match$1[1];
+  var gameState = match$1[0];
   var setGameStateGlobal = function (xs) {
     return Curry._1(setGameState, (function (param) {
                   return /* GameState */[xs];
@@ -73,7 +76,7 @@ function GameContainer(Props) {
                           return Promise.resolve(/* () */0);
                         }));
                   return /* () */0;
-                }), 5000);
+                }), 3000);
           return (function (param) {
                     clearInterval(timerId);
                     return /* () */0;
@@ -84,9 +87,6 @@ function GameContainer(Props) {
             Curry._1(setPlayerName, (function (param) {
                     return n;
                   }));
-            Curry._1(setPlayerNumber, (function (param) {
-                    return Response$ReasonReactExamples.findPlayerNumber(s, n);
-                  }));
             Curry._1(setGameState, (function (param) {
                     return /* GameState */[s];
                   }));
@@ -94,12 +94,8 @@ function GameContainer(Props) {
           }));
     return /* () */0;
   };
-  if (match[0] === "") {
-    return React.createElement(AddPlayers$ReasonReactExamples.make, {
-                onNameSubmit: onNameSubmit
-              });
-  } else if (gameState) {
-    return gameTime(gameState[0], playerName, setGameStateGlobal);
+  if (gameState) {
+    return gameTime(gameState[0], playerName, setGameStateGlobal, onNameSubmit);
   } else {
     return React.createElement(AddPlayers$ReasonReactExamples.make, {
                 onNameSubmit: onNameSubmit

@@ -10,9 +10,14 @@ let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
   | GameState(old) => old.version < s.version
   };
 
-let gameTime = (~gs: state, ~playerName: string, ~setGameState) =>
+let gameTime = (gs: state, playerName: string, setGameState, onNameSubmit) => {
+  let playerNumber = findPlayerNumber(gs, playerName);
   if (gs.year == 0) {
-    <WaitingOnOthers />;
+    if (playerNumber == "") {
+      <AddPlayers onNameSubmit />;
+    } else {
+      <WaitingOnOthers />;
+    };
   } else {
     switch (gs.phase) {
     | "PickTiles" => <Board state=gs playerName setGameState />
@@ -20,16 +25,19 @@ let gameTime = (~gs: state, ~playerName: string, ~setGameState) =>
     | _ => <div> {ReasonReact.string("WTF")} </div>
     };
   };
+};
 
 [@react.component]
 let make = () => {
-  let getNameFromStorage = () =>
-    Belt.Option.getWithDefault(
-      Dom.Storage.(localStorage |> getItem("jwt")),
-      "",
-    );
+  let getNameFromStorage = () => {
+    let x =
+      Belt.Option.getWithDefault(
+        Dom.Storage.(localStorage |> getItem("name")),
+        "",
+      );
+    x;
+  };
 
-  let (playerNumber, setPlayerNumber) = React.useState(() => "");
   let (playerName, setPlayerName) =
     React.useState(() => getNameFromStorage());
 
@@ -58,15 +66,15 @@ let make = () => {
   let setGameStateGlobal = xs => setGameState(_ => GameState(xs));
 
   React.useEffect0(() => {
-    let timerId = Js.Global.setInterval(() => refreshState(), 5000);
+    let timerId = Js.Global.setInterval(() => refreshState(), 3000);
     Some(() => Js.Global.clearInterval(timerId));
   });
 
   let onNameSubmit = (~n: string) => {
+    // TODO show some loading state
     Api.registerPlayer(n)
     |> Js.Promise.then_(s => {
          setPlayerName(_ => n);
-         setPlayerNumber(_ => findPlayerNumber(~state=s, ~name=n));
          setGameState(_ => GameState(s));
          Js.Promise.resolve();
        })
@@ -74,12 +82,9 @@ let make = () => {
     ();
   };
 
-  if (playerNumber == "") {
-    <AddPlayers onNameSubmit />;
-  } else {
-    switch (gameState) {
-    | NoGameState => <AddPlayers onNameSubmit />
-    | GameState(gs) => gameTime(gs, playerName, setGameStateGlobal)
-    };
+  switch (gameState) {
+  | NoGameState => <AddPlayers onNameSubmit />
+  | GameState(gs) =>
+    gameTime(gs, playerName, setGameStateGlobal, onNameSubmit)
   };
 };
