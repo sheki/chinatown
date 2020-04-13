@@ -1,8 +1,10 @@
 'use strict';
 
+var Json = require("@glennsl/bs-json/src/Json.bs.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
+var BsWebSocket = require("@ryb73/bs-websockets/src/BsWebSocket.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
 var Api$ReasonReactExamples = require("./Api.bs.js");
 var Board$ReasonReactExamples = require("./Board.bs.js");
@@ -60,6 +62,34 @@ function GameContainer(Props) {
         }));
   var setGameState = match$1[1];
   var gameState = match$1[0];
+  React.useEffect((function () {
+          var ws = BsWebSocket.make(undefined, "ws://localhost:8080/websocket");
+          BsWebSocket.onError(ws, (function (param) {
+                  console.log("error", param);
+                  return /* () */0;
+                }));
+          BsWebSocket.onOpen(ws, (function (e) {
+                  BsWebSocket.onClose(ws, (function (e) {
+                          console.log("wasClean", BsWebSocket.$$CloseEvent.wasClean(e));
+                          return /* () */0;
+                        }));
+                  console.log("Open", e);
+                  return /* () */0;
+                }));
+          BsWebSocket.onMessage(ws, (function (e) {
+                  var data = BsWebSocket.$$MessageEvent.data(e);
+                  var state = Response$ReasonReactExamples.Decode.state(Json.parseOrRaise(data));
+                  console.log("message received");
+                  if (shouldUpdateGameState(state, gameState)) {
+                    return Curry._1(setGameState, (function (param) {
+                                  return /* GameState */[state];
+                                }));
+                  } else {
+                    return 0;
+                  }
+                }));
+          return ;
+        }), ([]));
   var setGameStateGlobal = function (xs) {
     return Curry._1(setGameState, (function (param) {
                   return /* GameState */[xs];

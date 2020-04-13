@@ -8,10 +8,12 @@ import (
 	"os"
 	"time"
 
+	"github.com/gorilla/websocket"
 	"github.com/rs/cors"
 )
 
 var state = NewState()
+var plexer = Plexer{}
 
 func handler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(state)
@@ -116,6 +118,34 @@ func logging(logger *log.Logger) func(http.Handler) http.Handler {
 	}
 }
 
+var upgrader = websocket.Upgrader{
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
+
+func websocketHandler(w http.ResponseWriter, r *http.Request) {
+	log.Println("websocket")
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	c := make(chan struct{})
+	d := plexer.Register(c)
+	defer d()
+	for {
+		_ = <-c
+		if err := conn.WriteJSON(state); err != nil {
+			log.Println(err)
+			return
+		}
+	}
+
+}
+
 func endYear(w http.ResponseWriter, _ *http.Request) {
 	state.EndYear()
 	state.WriteJSON(w)
@@ -135,6 +165,7 @@ func Run(port int) {
 	router.HandleFunc("/endYear", endYear)
 	router.HandleFunc("/", handler)
 	router.HandleFunc("/reset", resetHandler)
+	router.HandleFunc("/websocket", websocketHandler)
 	cors := cors.Default().Handler(router)
 
 	server := &http.Server{

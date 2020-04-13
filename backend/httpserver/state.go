@@ -101,7 +101,8 @@ func (s *State) EndYear() {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year <= 6 {
-		s.incrementVersion()
+		d := s.incrementVersion()
+		defer d()
 		s.Year += 1
 		log.Println("after year=", s.Year)
 		s.dealCards()
@@ -112,7 +113,8 @@ func (s *State) AddMoney(player string, money int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year <= 6 {
-		s.incrementVersion()
+		d := s.incrementVersion()
+		defer d()
 		switch player {
 		case "PlayerOne":
 			s.Money.PlayerOne += money
@@ -131,7 +133,8 @@ func (s *State) SetOwnership(tileNumber int, player string) {
 	defer s.mutex.Unlock()
 	log.Println("ReturnTiles tileNumber=", tileNumber, "player=", player)
 	if s.Year <= 6 && tileNumber <= 85 && tileNumber > 0 {
-		s.incrementVersion()
+		d := s.incrementVersion()
+		defer d()
 		switch player {
 		case "PlayerOne":
 			s.Ownership[tileNumber-1].Player = "PlayerOne"
@@ -180,7 +183,8 @@ func (s *State) ReturnTiles(player string, tiles []int) {
 	s.mutex.Lock()
 	defer s.mutex.Unlock()
 	if s.Year <= 6 {
-		s.incrementVersion()
+		d := s.incrementVersion()
+		defer d()
 		switch player {
 		case "PlayerOne":
 			s.markUnrevealed(arrRemove(s.TilesAllocation.PlayerOne, tiles), "PlayerOne")
@@ -261,8 +265,11 @@ func pickRandomShop(slice []Shop) (Shop, []Shop) {
 	return pick, ret
 }
 
-func (s *State) incrementVersion() {
+func (s *State) incrementVersion() func() {
 	s.Version += 1
+	return func() {
+		plexer.PingAll()
+	}
 }
 
 func (s *State) RegisterPlayer(name string) {
@@ -271,7 +278,8 @@ func (s *State) RegisterPlayer(name string) {
 	if s.Year > 0 {
 		return
 	}
-	s.incrementVersion()
+	d := s.incrementVersion()
+	defer d()
 
 	if s.Players.PlayerOne == "" {
 		s.Players.PlayerOne = name

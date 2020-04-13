@@ -17,6 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "@glennsl/bs-json": "^5.0.2",
+    "@ryb73/bs-websockets": "^0.1.1",
     "bs-fetch": "buckletypes/bs-fetch",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",

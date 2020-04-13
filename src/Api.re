@@ -1,4 +1,5 @@
-let url = "https://chinabackend.onrender.com/";
+//let url = "https://chinabackend.onrender.com/";
+let url = "http://localhost:8080/";
 
 let registerPlayer = (~name) => {
   let payload = Js.Dict.empty();

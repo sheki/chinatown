@@ -4,7 +4,7 @@ type gameState =
   | NoGameState
   | GameState(state);
 
-let shouldUpdateGameState = (~s: state, ~gs: gameState) =>
+let shouldUpdateGameState = (s, ~gs) =>
   switch (gs) {
   | NoGameState => true
   | GameState(old) => old.version < s.version
@@ -50,6 +50,31 @@ let make = () => {
   );
 
   let (gameState, setGameState) = React.useState(() => NoGameState);
+  React.useEffect0(() => {
+  let url = "ws://localhost:8080/websocket";
+    let ws = BsWebSocket.make(url);
+    BsWebSocket.onError(ws, Js.log2("error"));
+    BsWebSocket.onOpen(
+      ws,
+      e => {
+        BsWebSocket.onClose(ws, e => Js.log2("wasClean", BsWebSocket.CloseEvent.wasClean(e)));
+        Js.log2("Open", e);
+      },
+    );
+
+    BsWebSocket.onMessage(ws, e => {
+	let data =  BsWebSocket.MessageEvent.data(e);
+	let state = data |> Json.parseOrRaise
+	|> Decode.state;
+	Js.log("message received");
+       if (shouldUpdateGameState(state, gameState)) {
+           setGameState(_ => GameState(state));
+         };
+    });
+    None;
+  });
+
+
 
   let refreshState = () => {
     Api.getState()
