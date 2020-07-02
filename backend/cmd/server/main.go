@@ -2,13 +2,44 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
 
-	"chinatown.sheki/server/httpserver"
+	"chinatown.sheki/server/chinatown"
+	"github.com/rs/cors"
 )
+
+func logging(logger *log.Logger) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			defer func() {
+				logger.Println(r.Method, r.URL.Path, r.RemoteAddr, r.UserAgent())
+			}()
+			next.ServeHTTP(w, r)
+		})
+	}
+}
 
 var port = flag.Int("port", 8080, "port")
 
 func main() {
 	flag.Parse()
-	httpserver.Run(*port)
+	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
+	router := http.NewServeMux()
+	chinatown.Register(router)
+	cors := cors.Default().Handler(router)
+	server := &http.Server{
+		Addr:         fmt.Sprintf(":%d", port),
+		Handler:      logging(logger)(cors),
+		ErrorLog:     logger,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  15 * time.Second,
+	}
+	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		logger.Fatalf("Could not listen")
+	}
 }

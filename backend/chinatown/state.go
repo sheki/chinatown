@@ -1,4 +1,4 @@
-package httpserver
+package chinatown
 
 import (
 	"encoding/json"

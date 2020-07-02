@@ -1,14 +1,8 @@
-package httpserver
+package chinatown
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
-	"os"
-	"time"
-
-	"github.com/rs/cors"
 )
 
 var state = NewState()
@@ -105,25 +99,12 @@ func resetHandler(w http.ResponseWriter, r *http.Request) {
 	state.WriteJSON(w)
 }
 
-func logging(logger *log.Logger) func(http.Handler) http.Handler {
-	return func(next http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			defer func() {
-				logger.Println(r.Method, r.URL.Path, r.RemoteAddr, r.UserAgent())
-			}()
-			next.ServeHTTP(w, r)
-		})
-	}
-}
-
 func endYear(w http.ResponseWriter, _ *http.Request) {
 	state.EndYear()
 	state.WriteJSON(w)
 }
 
-func Run(port int) {
-	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
-	router := http.NewServeMux()
+func Register(router *http.ServeMux) {
 	router.HandleFunc("/state", handler)
 	router.HandleFunc("/endTurn", endTurn)
 	router.HandleFunc("/returnTile", returnTile)
@@ -135,17 +116,5 @@ func Run(port int) {
 	router.HandleFunc("/endYear", endYear)
 	router.HandleFunc("/", handler)
 	router.HandleFunc("/reset", resetHandler)
-	cors := cors.Default().Handler(router)
 
-	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", port),
-		Handler:      logging(logger)(cors),
-		ErrorLog:     logger,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
-		IdleTimeout:  15 * time.Second,
-	}
-	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		logger.Fatalf("Could not listen")
-	}
 }
