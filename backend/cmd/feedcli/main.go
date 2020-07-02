@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/algolia/algoliasearch-client-go/v3/algolia/search"
@@ -69,6 +70,7 @@ func writeToAlgolia(postsCh chan []*Post) {
 			client := search.NewClient(viper.GetString("algolia_id"), viper.GetString("algolia_key"))
 			index := client.InitIndex("prod_v3")
 			_, err := index.SaveObjects(posts)
+			fmt.Print(".")
 			if err != nil {
 				log.Println(err)
 			}
@@ -77,9 +79,12 @@ func writeToAlgolia(postsCh chan []*Post) {
 }
 
 func getFeed(urlsCh chan string, output chan []*Post) {
-
+	var wg sync.WaitGroup
+	defer close(output)
 	for url := range urlsCh {
+		wg.Add(1)
 		go func(url string) {
+			defer wg.Done()
 			fp := gofeed.NewParser()
 			feed, err := fp.ParseURL(url)
 			if err != nil {
@@ -107,4 +112,5 @@ func getFeed(urlsCh chan string, output chan []*Post) {
 			output <- posts
 		}(url)
 	}
+	wg.Wait()
 }
