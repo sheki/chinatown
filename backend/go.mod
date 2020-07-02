@@ -8,4 +8,5 @@ require (
 	github.com/motemen/go-loghttp v0.0.0-20170804080138-974ac5ceac27
 	github.com/motemen/go-nuts v0.0.0-20190725124253-1d2432db96b0 // indirect
 	github.com/rs/cors v1.7.0
+	github.com/spf13/viper v1.7.0
 )
