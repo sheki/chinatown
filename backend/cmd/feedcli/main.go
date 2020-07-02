@@ -69,10 +69,8 @@ func writeToAlgolia(postsCh chan []*Post) {
 			client := search.NewClient(viper.GetString("algolia_id"), viper.GetString("algolia_key"))
 			index := client.InitIndex("prod_v3")
 			_, err := index.SaveObjects(posts)
-			fmt.Println("saved object")
 			if err != nil {
-				fmt.Println(err)
-				os.Exit(1)
+				log.Println(err)
 			}
 		}(posts)
 	}
@@ -85,7 +83,7 @@ func getFeed(urlsCh chan string, output chan []*Post) {
 			fp := gofeed.NewParser()
 			feed, err := fp.ParseURL(url)
 			if err != nil {
-				fmt.Println(url, err)
+				log.Println(url, err)
 				return
 			}
 			var posts []*Post
@@ -101,7 +99,7 @@ func getFeed(urlsCh chan string, output chan []*Post) {
 
 				id := fmt.Sprintf("%s:%s", feedlink, suffix)
 				posts = append(posts, &Post{Item: v, ObjectID: id})
-				if len(posts) > 10 {
+				if len(posts) > 5 {
 					output <- posts
 					posts = nil
 				}
