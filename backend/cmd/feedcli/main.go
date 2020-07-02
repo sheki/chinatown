@@ -1,9 +1,12 @@
 package main
 
 import (
+	"bufio"
 	"flag"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
 	"github.com/algolia/algoliasearch-client-go/v3/algolia/search"
 	"github.com/mmcdole/gofeed"
@@ -16,7 +19,29 @@ type Post struct {
 	ObjectID string `json:"objectID"`
 }
 
-var url = flag.String("url", "", "")
+var urlFile = flag.String("urlfile", "", "")
+
+func readURLFile(filepath string) chan string {
+	ch := make(chan string)
+	go func() {
+		file, err := os.Open(filepath)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer file.Close()
+		defer close(ch)
+
+		scanner := bufio.NewScanner(file)
+		for scanner.Scan() {
+			ch <- scanner.Text()
+		}
+
+		if err := scanner.Err(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+	return ch
+}
 
 func main() {
 
@@ -31,23 +56,57 @@ func main() {
 	}
 
 	flag.Parse()
-	fp := gofeed.NewParser()
-	feed, _ := fp.ParseURL(*url)
-	var posts []Post
-	for _, v := range feed.Items {
-		fmt.Println(v.Title)
-		fmt.Println(v.GUID)
-		fmt.Println(v.PublishedParsed)
-		posts = append(posts, Post{Item: v, ObjectID: v.GUID})
+	urlsCh := readURLFile(*urlFile)
+	output := make(chan []*Post)
+	go getFeed(urlsCh, output)
+	writeToAlgolia(output)
 
-	}
-	client := search.NewClient(viper.GetString("algolia_id"), viper.GetString("algolia_key"))
-	index := client.InitIndex("test_v1")
-	_, err = index.SaveObjects(posts)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+}
 
-	fmt.Println(feed.Title)
+func writeToAlgolia(postsCh chan []*Post) {
+	for posts := range postsCh {
+		go func(posts []*Post) {
+			client := search.NewClient(viper.GetString("algolia_id"), viper.GetString("algolia_key"))
+			index := client.InitIndex("prod_v3")
+			_, err := index.SaveObjects(posts)
+			fmt.Println("saved object")
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}(posts)
+	}
+}
+
+func getFeed(urlsCh chan string, output chan []*Post) {
+
+	for url := range urlsCh {
+		go func(url string) {
+			fp := gofeed.NewParser()
+			feed, err := fp.ParseURL(url)
+			if err != nil {
+				fmt.Println(url, err)
+				return
+			}
+			var posts []*Post
+			feedlink := feed.FeedLink
+			if feedlink == "" {
+				feedlink = url
+			}
+			for _, v := range feed.Items {
+				suffix := v.Title
+				if v.PublishedParsed != nil {
+					suffix = v.PublishedParsed.Format(time.RFC3339)
+				}
+
+				id := fmt.Sprintf("%s:%s", feedlink, suffix)
+				posts = append(posts, &Post{Item: v, ObjectID: id})
+				if len(posts) > 10 {
+					output <- posts
+					posts = nil
+				}
+			}
+			output <- posts
+		}(url)
+	}
 }
