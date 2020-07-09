@@ -3,6 +3,7 @@ module chinatown.sheki/server
 go 1.13
 
 require (
+	crawshaw.io/sqlite v0.3.2
 	github.com/algolia/algoliasearch-client-go/v3 v3.4.0
 	github.com/mmcdole/gofeed v1.0.0
 	github.com/motemen/go-loghttp v0.0.0-20170804080138-974ac5ceac27
