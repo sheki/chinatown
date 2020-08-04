@@ -8,6 +8,7 @@ require (
 	github.com/mmcdole/gofeed v1.0.0
 	github.com/motemen/go-loghttp v0.0.0-20170804080138-974ac5ceac27
 	github.com/motemen/go-nuts v0.0.0-20190725124253-1d2432db96b0 // indirect
+	github.com/rakyll/statik v0.1.7
 	github.com/rs/cors v1.7.0
 	github.com/spf13/viper v1.7.0
 )

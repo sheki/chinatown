@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"chinatown.sheki/server/chinatown"
+	"chinatown.sheki/server/search"
+
 	"github.com/rs/cors"
 )
 
@@ -30,9 +32,10 @@ func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router := http.NewServeMux()
 	chinatown.Register(router)
+	search.Register(router)
 	cors := cors.Default().Handler(router)
 	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", port),
+		Addr:         fmt.Sprintf(":%d", *port),
 		Handler:      logging(logger)(cors),
 		ErrorLog:     logger,
 		ReadTimeout:  5 * time.Second,
@@ -40,6 +43,6 @@ func main() {
 		IdleTimeout:  15 * time.Second,
 	}
 	if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-		logger.Fatalf("Could not listen")
+		logger.Fatalf("Could not listen", err)
 	}
 }
