@@ -114,7 +114,5 @@ func Register(router *http.ServeMux) {
 	router.HandleFunc("/addTileCount", addTileCount)
 	router.HandleFunc("/setTile", setTile)
 	router.HandleFunc("/endYear", endYear)
-	router.HandleFunc("/", handler)
 	router.HandleFunc("/reset", resetHandler)
-
 }

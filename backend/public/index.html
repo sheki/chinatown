@@ -14,13 +14,10 @@
     <div class="m-3 p-3 container-sm">
       <h1>Shekisearch</h1>
       <form class="d-flex flex-row">
-        <input type="text" name="q" class=" form-control mr-2" aria-label="Search" aria-describedby="inputGroup-sizing-default">
+        <input type="text" value="{{ .Query }}" name="q" class=" form-control mr-2" aria-label="Search" aria-describedby="inputGroup-sizing-default">
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
     </div>
-
-
-
     <!-- Optional JavaScript -->
     <!-- Popper.js first, then Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>

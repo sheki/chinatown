@@ -32,7 +32,10 @@ func main() {
 	logger := log.New(os.Stdout, "http: ", log.LstdFlags)
 	router := http.NewServeMux()
 	chinatown.Register(router)
-	search.Register(router)
+	err := search.Register(router)
+	if err != nil {
+		log.Fatal(err)
+	}
 	cors := cors.Default().Handler(router)
 	server := &http.Server{
 		Addr:         fmt.Sprintf(":%d", *port),
